@@ -20,4 +20,4 @@ pages:
     paths:
       - build
   script:
-    - npm build
+    - npm run build
