@@ -18,6 +18,9 @@ pages:
     - install dependencies
   artifacts:
     paths:
-      - build
+      - public
   script:
     - npm run build
+    # these are for gitlab pages, see https://gitlab.com/gitlab-org/gitlab-foss/-/issues/40686
+    - rm -rf ./public
+    - mv build public
