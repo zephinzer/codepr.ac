@@ -9,6 +9,7 @@ install dependencies:
     - npm ci
 
 pages:
+  stage: publish
   dependencies:
     - install dependencies
   artifacts:
