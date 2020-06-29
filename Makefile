@@ -69,7 +69,7 @@ api_static_production:
 	$(MAKE) api_checksum
 api_checksum:
 	sha256sum -b ./bin/$(BIN_PATH) | cut -f 1 -d ' ' > ./bin/$(BIN_PATH).sha256
-	rm -rf ./bin/$(CMD_NAME)
+	rm -rf ./bin/$(CMD_NAME) ./bin/$(CMD_NAME).sha256
 	cd ./bin \
 		&& ln -s ./$(BIN_PATH) ./$(CMD_NAME) \
 		&& ln -s ./$(BIN_PATH).sha256 ./$(CMD_NAME).sha256
