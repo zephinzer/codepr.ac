@@ -7,18 +7,15 @@ install dependencies:
   stage: initialise
   artifacts:
     expire_in: 1 week
-    paths:
-      - node_modules
+    paths: [node_modules]
   script:
     - npm ci
 
 pages:
   stage: publish
-  dependencies:
-    - install dependencies
+  dependencies: [install dependencies]
   artifacts:
-    paths:
-      - public
+    paths: [public]
   script:
     - npm run build
     # these are for gitlab pages, see https://gitlab.com/gitlab-org/gitlab-foss/-/issues/40686
