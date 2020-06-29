@@ -1,0 +1,18 @@
+stages:
+  - initialise
+  - publish
+image: node:lts-alpine
+
+install dependencies:
+  stage: initialise
+  script:
+    - npm ci
+
+pages:
+  dependencies:
+    - install dependencies
+  artifacts:
+    paths:
+      - build
+  script:
+    - npm build
