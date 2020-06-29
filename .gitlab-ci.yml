@@ -5,6 +5,10 @@ image: node:lts-alpine
 
 install dependencies:
   stage: initialise
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - node_modules
   script:
     - npm ci
 
