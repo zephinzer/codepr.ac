@@ -1,10 +1,18 @@
 package server
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+
+	"gitlab.com/zephinzer/codepr.ac/internal/log"
+)
 
 func GetServer(router http.Handler) http.Server {
+	config.LoadFromEnvironment()
+	listenAddr := fmt.Sprintf("%s:%v", config.GetString(ServerAddr), config.GetUint(ServerPort))
+	log.Infof("created server that will bind to %s", listenAddr)
 	return http.Server{
-		Addr:    "0.0.0.0:30000",
+		Addr:    listenAddr,
 		Handler: router,
 	}
 }

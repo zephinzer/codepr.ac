@@ -14,18 +14,18 @@ services:
     volumes:
     - .data/var/lib/mysql:/var/lib/mysql
     networks: [codeprac]
-    ports: [33060:33060]
+    ports: [3307:3306]
   api:
     build:
       context: ../
       dockerfile: ./api/Dockerfile
     image: zephinzer/codeprac-api:latest
     networks: [codeprac]
-    ports: [30000:30000]
+    ports: [30001:30000]
   www:
     build:
       context: ../
       dockerfile: ./www/Dockerfile
     image: zephinzer/codeprac-www:latest
     networks: [codeprac]
-    ports: [30000:30000]
+    ports: [3001:3000]
