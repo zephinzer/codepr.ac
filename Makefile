@@ -17,8 +17,12 @@ api_deps:
 	go mod tidy -v
 ui_deps:
 	npm ci
-run_api:
-	go run -v -mod=vendor ./cmd/$(CMD_NAME) ${args}
+start_db:
+	docker-compose -f ./deploy/dev/docker-compose.yml up -d
+start_api:
+	go run -v -mod=vendor ./cmd/$(CMD_NAME) start
+start_ui:
+	npm start
 test_api:
 	go test -v -mod=vendor ./... -cover -coverprofile c.out
 api:
