@@ -16,6 +16,7 @@ api_deps:
 	go mod vendor -v
 	go mod tidy -v
 ui_deps:
+	npm install
 	npm ci
 start_db:
 	docker-compose -f ./deploy/dev/docker-compose.yml up -d

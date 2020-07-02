@@ -38,9 +38,9 @@ A service for reviewing design decisions made in code.
 1. Clone this repository locally
 2. Install Node.js dependencies using `npm ci` (or `make ui_deps`)
 3. Install Golang dependencies using `go mod vendor` (or `make api_deps`)
-4. Start the MySQL database by running `docker-compose -f ./deploy/dev/docker-compose.yml up -d` (or `make start_db`)
-5. Start the API server by running `go run ./cmd/codeprac start` (or `make start_api`)
-6. Start the web application by running `npm start` (or `make start_ui`)
+4. Start the MySQL database by running `docker-compose -f ./deploy/dev/docker-compose.yml up -d` (or `make start_db`). You should be able to access it using `mysql -uuser -ppassword -h127.0.0.1 -P33060 database`.
+5. Start the API server by running `go run ./cmd/codeprac start` (or `make start_api`). You should be able to access it at [http://localhost:30000](http://localhost:30000).
+6. Start the web application by running `npm start` (or `make start_ui`). You should be able to access it at [http://localhost:3000](http://localhost:3000).
 
 ## Building
 
