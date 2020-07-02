@@ -1,0 +1,64 @@
+.page-home {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+.page-home header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.splash-text {
+  animation: shiny infinite 5s linear;
+  color: #333;
+  font-family: monospace;
+  font-size: calc(5px + 6vmin);
+  margin: 0;
+}
+
+img {
+  pointer-events: none;
+}
+
+img.icon {
+  animation: spin infinite 20s linear;
+  height: 30vmin;
+}
+
+img.logo {
+  height: 15vmin;
+}
+
+.home-link {
+  color: #040808;
+}
+
+@keyframes shiny {
+  from {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

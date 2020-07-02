@@ -1,0 +1,16 @@
+.page-authentication {
+  display: block;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.page-authentication > .login-buttons {
+  display: inline-block;
+  margin: 8px;
+  width: 210px;
+}
+
+.page-authentication > .login-buttons > * {
+  margin: 8px;
+}
