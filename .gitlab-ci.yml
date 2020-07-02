@@ -5,6 +5,12 @@ image: node:lts-alpine
 
 install dependencies:
   stage: initialise
+  cache:
+    untracked: true
+    policy: pull-push
+    paths:
+      - ./node_modules
+      - ./vendor
   artifacts:
     expire_in: 1 week
     paths: [node_modules]

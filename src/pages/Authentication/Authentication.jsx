@@ -9,8 +9,8 @@ export function Authentication() {
       <br />
       <img
         alt='Codeprac logo'
+        className='logo'
         src={logo}
-        style={{height: '100px'}}
       />
       <br />
       <div className='login-buttons'>

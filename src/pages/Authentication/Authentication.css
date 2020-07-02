@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.page-authentication > img.logo {
+  min-height: 64px;
+}
+
 .page-authentication > .login-buttons {
   display: inline-block;
   margin: 8px;
