@@ -1,6 +1,19 @@
 .login-button {
   display: flex;
   height: 48px;
+  text-decoration: none;
+}
+
+.login-button-content > .icon,
+.login-button-content > label {
+  opacity: 0.9;
+}
+
+.login-button-content:hover > .icon,
+.login-button-content:hover > label {
+  opacity: 1;
+  text-shadow: 0 0 1px rgba(255,255,255,0.2);
+  transition: 0.1s ease-in;
 }
 
 .login-button-content {
@@ -15,10 +28,12 @@
 
 .login-button-content > .icon {
   font-size: 1.6em;
-  padding: 0 4px 0 8px;
+  padding: 0 8px 0 12px;
+  transition: 0.2s ease-out;
 }
 
 .login-button-content > label {
   font-weight: 600;
-  padding: 0 8px 0 4px;
+  padding: 0 12px 0 8px;
+  transition: 0.2s ease-out;
 }

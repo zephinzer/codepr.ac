@@ -7,12 +7,14 @@ import './LoginButton.css';
 const DEFAULT_PLATFORM = 'github';
 const PLATFORM = {
   "github": {
+    authUrl: 'https://github.com/login/oauth/authorize/',
     bgColor: '#000',
     fgColor: '#fff',
     faIcon: faGithub,
     name: 'Login with Github',
   },
   "gitlab": {
+    authUrl: 'https://gitlab.com/oauth/authorize',
     bgColor: '#fc6d26',
     fgColor: '#fff',
     faIcon: faGitlab,
@@ -20,23 +22,33 @@ const PLATFORM = {
   },
 };
 
-export function LoginButton({
+export const LoginButton = ({
+  clientId,
   platform,
-}) {
+  redirectUri,
+  scopes,
+}) => {
   if(!platform) {
     platform = DEFAULT_PLATFORM;
   }
   if(!PLATFORM[platform]) {
     return (
-      <a className='login-button' href=''>
+      <span
+        aria-label={`an invalid provider, ${platform}, was provided`}
+        className='login-button'
+      >
         <label>
           Invalid provider <pre>{platform}</pre>
         </label>
-      </a>  
+      </span>  
     );
   }
   return (
-    <a className='login-button' href>
+    <a
+      aria-label={`click to login via ${PLATFORM[platform].name}`}
+      className='login-button'
+      href={`${PLATFORM[platform].authUrl}?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}`}
+    >
       <div className='login-button-content'
         style={{
           backgroundColor: PLATFORM[platform].bgColor,
