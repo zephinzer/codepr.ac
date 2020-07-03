@@ -16,9 +16,11 @@ A service for reviewing design decisions made in code.
 | Growing developers | Review your progress through the years by practicing re-writing basic applications |
 | Technical interviewers | Review design decisions made in code written by candidates |
 
-# Configuration
+# Deployment
 
-## Configuring the backend
+## Configuration
+
+### Configuring the backend
 
 | Key | Default | Description |
 | --- | --- | --- |
@@ -29,7 +31,55 @@ A service for reviewing design decisions made in code.
 | `SERVER_ADDR` | `"0.0.0.0"` | Interface address which the server should bind to |
 | `SERVER_PORT` | `30000` | Port which the server should listen on |
 
-## Frontend
+### Frontend
+
+## Infrastructure
+
+### Required tools for provisioning infrastructure
+
+#### Digital Ocean account
+
+Sign up for an account at [https://digitalocean.com](https://digitalocean.com).
+
+#### Terraform
+
+Terraform is used to bring up required infrastructure. To install Terraform,
+
+```sh
+# on macos
+brew install terraform;
+
+# on windows
+choco install terraform;
+```
+
+Or download it from [https://www.terraform.io/downloads.html](https://www.terraform.io/downloads.html).
+
+Full instructions can be found at [https://learn.hashicorp.com/terraform/getting-started/install.html](https://learn.hashicorp.com/terraform/getting-started/install.html).
+
+#### Direnv
+
+The `direnv` tool is used in conjunction with Terraform so that API tokens can avoid being checked-in to the repository. To install `direnv`, run:
+
+```sh
+# on ubuntu
+apt install direnv;
+
+# on macos
+brew install direnv;
+```
+
+Add the hook script as described at [https://github.com/direnv/direnv/blob/master/docs/hook.md](https://github.com/direnv/direnv/blob/master/docs/hook.md).
+
+### Setting up Terraform
+
+Navigate to the Terraform module for this project at `./deploy/do`.
+
+1. Setup an SSH key-pair using `make .keys`
+2. Setup the backend configuration using `make .backend-config`
+3. Run `make init` to initialise the Terraform backend
+4. Run `make plan` to show changes to the infrastructure
+5. Run `make apply` to apply the changes
 
 # Development
 

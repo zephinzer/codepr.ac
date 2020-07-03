@@ -1,0 +1,5 @@
+# use direnv to manage infrastructure provider api tokens
+.envrc
+.keys
+.terraform
+.backend-config

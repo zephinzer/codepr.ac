@@ -8,6 +8,7 @@ install dependencies:
   cache:
     untracked: true
     policy: pull-push
+    key: ${CI_COMMIT_REF_NAME}
     paths:
       - ./node_modules
       - ./vendor
