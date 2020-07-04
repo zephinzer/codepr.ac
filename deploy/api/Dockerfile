@@ -27,4 +27,4 @@ LABEL maintainer "${MAINTAINER}"
 COPY --from=builder /go/${GO_PACKAGE_URL}/bin/${CMD_NAME}_linux_amd64 /entrypoint
 COPY --from=builder /go/${GO_PACKAGE_URL}/bin/${CMD_NAME}_linux_amd64.sha256 /entrypoint.sha256
 WORKDIR /
-ENTRYPOINT ["/entrypoint", "start"]
+ENTRYPOINT ["/entrypoint"]

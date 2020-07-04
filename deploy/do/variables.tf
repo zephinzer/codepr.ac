@@ -21,6 +21,12 @@ variable "environment" {
   type = string
 }
 
+variable "flag_api_enabled" {
+  description = "Set to true to enable the API, false to disable it"
+  default = true
+  type = bool
+}
+
 variable "name" {
   description = "Name of this project"
   default = "codeprac"

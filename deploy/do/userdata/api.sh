@@ -74,6 +74,7 @@ systemctl restart sshd;
 ufw allow OpenSSH;
 ufw allow ${SSHD_PORT}/tcp;
 ufw allow 443;
+ufw allow 80;
 ufw --force enable;
 
 # Due diligence
@@ -107,19 +108,16 @@ echo "port = ${SSHD_PORT}" >> /etc/fail2ban/jail.local;
 systemctl restart fail2ban;
 systemctl enable fail2ban;
 
-# Add application
-git clone https://gitlab.com/zephinzer/codepr.ac.git /home/${USERNAME}/src;
-chown ${USERNAME}:${USERNAME} -R /home/${USERNAME}/src;
-docker-compose -f /home/${USERNAME}/src/deploy/docker-compose.yml build;
-
 # Add proxy
 cat <<EOF > /etc/nginx/sites-available/default
+ssl_session_cache   shared:SSL:10m;
+ssl_session_timeout 10m;
+
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
 
-  # server_name api.codepr.ac;
-  server_name _;
+  server_name insecure-api.codepr.ac;
 
   location / {
     proxy_pass http://localhost:30001/;
@@ -130,10 +128,38 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
   }
 }
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+  server_name api.codepr.ac;
+  location / {
+    proxy_pass http://localhost:30001/;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+  # Certbot should insert certificates below this comment
+}
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+  server_name ui.codepr.ac;
+  location / {
+    proxy_pass http://localhost:3001/;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+  # Certbot should insert certificates below this comment
+}
 EOF
+certbot --nginx --non-interactive --agree-tos -d api.codepr.ac -m webmaster@codepr.ac;
+certbot --nginx --non-interactive --agree-tos -d ui.codepr.ac -m webmaster@codepr.ac;
 nginx -t;
 nginx -s reload;
-certbot --nginx --non-interactive --agree-tos -d api.codepr.ac -m webmaster@codepr.ac;
+sed --in-place 's/^127.0.0.1 localhost/127.0.0.1 localhost api.codepr.ac ui.codepr.ac/g' /etc/hosts;
 
 # Open ports
 ufw allow 'Nginx HTTP';
@@ -141,3 +167,9 @@ ufw allow 'Nginx HTTPS';
 ufw allow 30001; # api server
 ufw allow 3001; # ui server
 ufw reload;
+
+# Add application
+git clone https://gitlab.com/zephinzer/codepr.ac.git /home/${USERNAME}/src;
+chown ${USERNAME}:${USERNAME} -R /home/${USERNAME}/src;
+docker-compose -f /home/${USERNAME}/src/deploy/docker-compose.yml build --no-cache;
+docker-compose -f /home/${USERNAME}/src/deploy/docker-compose.yml up -d;

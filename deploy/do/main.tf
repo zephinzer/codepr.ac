@@ -29,8 +29,11 @@ resource "digitalocean_project" "default" {
   description = "Infrastructure for codepr.ac"
   purpose     = "HTTP API service with persistent data store"
   environment = var.environment
-  resources = [
-    digitalocean_droplet.api.urn,
+  resources = var.flag_api_enabled ? [
+    digitalocean_droplet.api[0].urn,
+    digitalocean_floating_ip.api.urn,
+  ] : [
+    digitalocean_floating_ip.api.urn,
   ]
 }
 
@@ -43,6 +46,7 @@ resource "digitalocean_vpc" "default" {
 
 # ref https://www.terraform.io/docs/providers/do/r/droplet.html
 resource "digitalocean_droplet" "api" {
+  count = var.flag_api_enabled ? 1 : 0
   name     = "${var.name}-api"
   size     = var.droplet_api_size
   image    = var.droplet_api_image
@@ -57,8 +61,8 @@ resource "digitalocean_droplet" "api" {
 
 # ref https://www.terraform.io/docs/providers/do/r/floating_ip.html
 resource "digitalocean_floating_ip" "api" {
-  droplet_id = digitalocean_droplet.api.id
-  region     = digitalocean_droplet.api.region
+  droplet_id = var.flag_api_enabled ? digitalocean_droplet.api[0].id : null
+  region     = var.flag_api_enabled ? digitalocean_droplet.api[0].region : var.region
 }
 
 # ref https://www.terraform.io/docs/providers/do/r/ssh_key.html

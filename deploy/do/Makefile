@@ -16,7 +16,12 @@ plan:
 
 apply:
 	terraform apply
-	@$(MAKE) ssh_api_immediate
+
+up:
+	terraform apply
+
+down:
+	terraform apply -var flag_api_enabled=false
 
 destroy:
 	terraform destroy

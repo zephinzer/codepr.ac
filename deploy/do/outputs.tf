@@ -10,53 +10,54 @@ output "metadata_region_name" {
 
 output "droplet_api_id" {
   description = "The ID of the Droplet"
-  value = digitalocean_droplet.api.id
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].id : "disabled"
 }
 
 output "droplet_api_urn" {
   description = "The uniform resource name of the Droplet"
-  value = digitalocean_droplet.api.urn
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].urn : "disabled"
 }
 
 output "droplet_api_name" {
   description = "The name of the Droplet"
-  value = digitalocean_droplet.api.name
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].name : "disabled"
 }
 
 output "droplet_api_region" {
   description = "The region of the Droplet"
-  value = digitalocean_droplet.api.region
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].region : "disabled"
 }
 
 output "droplet_api_image" {
   description = "The image of the Droplet"
-  value = digitalocean_droplet.api.image
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].image : "disabled"
 }
 
 output "droplet_api_ipv6" {
   description = "Is IPv6 enabled"
-  value = digitalocean_droplet.api.ipv6
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv6 : "disabled"
 }
 
 output "droplet_api_ipv6_address" {
   description = "The IPv6 address"
-  value = digitalocean_droplet.api.ipv6_address
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv6_address : "disabled"
 }
 
 output "droplet_api_ipv4_address" {
   description = "The internal (but not private) IPv4 address"
-  value = digitalocean_droplet.api.ipv4_address
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv4_address : "disabled"
 }
 
 output "droplet_api_ipv4_address_private" {
   description = "The private networking IPv4 address"
-  value = digitalocean_droplet.api.ipv4_address_private
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv4_address_private : "disabled"
 }
 
 output "droplet_api_ipv4_address_floating" {
   description = "The floating IPv4 address"
   value = digitalocean_floating_ip.api.ip_address
 }
+
 output "droplet_api_ipv4_address_floating_urn" {
   description = "The URN for the API droplet's persistent floating IPv4 address"
   value = digitalocean_floating_ip.api.urn
@@ -64,52 +65,52 @@ output "droplet_api_ipv4_address_floating_urn" {
 
 output "droplet_api_locked" {
   description = "Is the Droplet locked"
-  value = digitalocean_droplet.api.locked
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].locked : "disabled"
 }
 
 output "droplet_api_private_networking" {
   description = "Is private networking enabled"
-  value = digitalocean_droplet.api.private_networking
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].private_networking : "disabled"
 }
 
 output "droplet_api_price_hourly" {
   description = "Droplet hourly price"
-  value = digitalocean_droplet.api.price_hourly
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].price_hourly : "disabled"
 }
 
 output "droplet_api_price_monthly" {
   description = "Droplet monthly price"
-  value = digitalocean_droplet.api.price_monthly
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].price_monthly : "disabled"
 }
 
 output "droplet_api_size" {
   description = "The instance size"
-  value = digitalocean_droplet.api.size
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].size : "disabled"
 }
 
 output "droplet_api_disk" {
   description = "The size of the instance's disk in GB"
-  value = digitalocean_droplet.api.disk
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].disk : "disabled"
 }
 
 output "droplet_api_vcpus" {
   description = "The number of the instance's virtual CPUs"
-  value = digitalocean_droplet.api.vcpus
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].vcpus : "disabled"
 }
 
 output "droplet_api_status" {
   description = "The status of the Droplet"
-  value = digitalocean_droplet.api.status
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].status : "disabled"
 }
 
 output "droplet_api_tags" {
   description = "The tags associated with the Droplet"
-  value = digitalocean_droplet.api.tags
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].tags : []
 }
 
 output "droplet_api_volume_ids" {
   description = "A list of the attached block storage volumes"
-  value = digitalocean_droplet.api.volume_ids
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].volume_ids : []
 }
 
 output "droplet_api_ssh_key_id" {
