@@ -39,7 +39,7 @@ A service for reviewing design decisions made in code.
 
 #### Digital Ocean account
 
-Sign up for an account at [https://digitalocean.com](https://digitalocean.com).
+Sign up for an account at [https://m.do.co/c/c3b62cf39c7c](https://m.do.co/c/c3b62cf39c7c) (*that's my referral code so that this project may be slightly easier on my pockets*, if you would rather not (cues sad face), you can also sign up from [https://digitalocean.com](https://digitalocean.com)).
 
 #### Terraform
 
@@ -77,9 +77,10 @@ Navigate to the Terraform module for this project at `./deploy/do`.
 
 1. Setup an SSH key-pair using `make .keys`
 2. Setup the backend configuration using `make .backend-config`
-3. Run `make init` to initialise the Terraform backend
-4. Run `make plan` to show changes to the infrastructure
-5. Run `make apply` to apply the changes
+3. Setup your Digital Ocean token using `make .envrc` and filling up your Digital Ocean API token in the generated `.envrc` before running `direnv allow .` to enable usage of the `.envrc`
+4. Run `make init` to initialise the Terraform backend
+5. Run `make plan` to show changes to the infrastructure
+6. Run `make apply` to apply the changes
 
 # Development
 

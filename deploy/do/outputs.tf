@@ -1,3 +1,8 @@
+output "metadata_droplet_sizes" {
+  description = "Possible droplet sizes to use for provided region"
+  value = data.digitalocean_sizes.options
+}
+
 output "metadata_region_name" {
   description = "Region name in english"
   value = data.digitalocean_region.selected.name
@@ -39,13 +44,22 @@ output "droplet_api_ipv6_address" {
 }
 
 output "droplet_api_ipv4_address" {
-  description = "The IPv4 address"
+  description = "The internal (but not private) IPv4 address"
   value = digitalocean_droplet.api.ipv4_address
 }
 
 output "droplet_api_ipv4_address_private" {
   description = "The private networking IPv4 address"
   value = digitalocean_droplet.api.ipv4_address_private
+}
+
+output "droplet_api_ipv4_address_floating" {
+  description = "The floating IPv4 address"
+  value = digitalocean_floating_ip.api.ip_address
+}
+output "droplet_api_ipv4_address_floating_urn" {
+  description = "The URN for the API droplet's persistent floating IPv4 address"
+  value = digitalocean_floating_ip.api.urn
 }
 
 output "droplet_api_locked" {

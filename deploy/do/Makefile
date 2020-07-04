@@ -1,9 +1,8 @@
-
-
--include ./.backend-config
-
 .backend-config:
 	cp ./.backend-config.example ./.backend-config
+
+.envrc:
+	cp ./.envrc.example ./.envrc
 
 .keys:
 	mkdir -p ./.keys
@@ -17,6 +16,12 @@ plan:
 
 apply:
 	terraform apply
+	@$(MAKE) ssh_api_immediate
 
 destroy:
 	terraform destroy
+
+ssh_api:
+	ssh -vv -i ./.keys/id_rsa codeprac@$(shell terraform output droplet_api_ipv4_address) -p 26337
+ssh_api_debug: # use this if you're not sure whether the user-data script has completed execution
+	ssh -vv -i ./.keys/id_rsa root@$(shell terraform output droplet_api_ipv4_address) -p 22

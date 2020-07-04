@@ -2,30 +2,31 @@ version: "3.5"
 networks:
   codeprac:
     name: codeprac
-    driver: overlay
 services:
   database:
     image: mysql:5.7.28
-    environment:
-      MYSQL_ROOT_PASSWORD: toor
+    environment: &databaseCredentials
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: database
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     volumes:
     - .data/var/lib/mysql:/var/lib/mysql
     networks: [codeprac]
-    ports: [3307:3306]
+    ports: ["3307:3306"]
   api:
     build:
       context: ../
-      dockerfile: ./api/Dockerfile
+      dockerfile: ./deploy/api/Dockerfile
     image: zephinzer/codeprac-api:latest
+    entrypoint: ["/entrypoint", "start"]
+    environment: *databaseCredentials
     networks: [codeprac]
-    ports: [30001:30000]
-  www:
+    ports: ["30001:30000"]
+  ui:
     build:
       context: ../
-      dockerfile: ./www/Dockerfile
-    image: zephinzer/codeprac-www:latest
+      dockerfile: ./deploy/ui/Dockerfile
+    image: zephinzer/codeprac-ui:latest
     networks: [codeprac]
-    ports: [3001:3000]
+    ports: ["3001:3000"]
