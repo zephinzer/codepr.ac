@@ -156,7 +156,7 @@ prepare_production:
 	chmod +x ./scripts/deploy-docker-compose.sh
 	./scripts/deploy-docker-compose.sh
 deploy_production:
-	docker-compose -f ./deploy/docker-compose.deploy.sh up -d
+	docker-compose -f ./deploy/docker-compose.deploy.yml up -d
 update_repo:
 	chmod +x ./scripts/update-repo.sh
 	./scripts/update-repo.sh
