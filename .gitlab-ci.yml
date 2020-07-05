@@ -7,7 +7,6 @@ stages:
 ui dependencies:
   stage: initialise
   image: usvc/ci:js-dependencies
-  only: ["master"]
   cache:
     key: ${CI_COMMIT_REF_NAME}_ui_dependencies
     paths: ["./node_modules"]
@@ -28,7 +27,6 @@ api dependencies:
     expire_in: 1 week
     paths: ["./vendor"]
   script: ["entrypoint"]
-
 
 dockerize api:
   stage: package
