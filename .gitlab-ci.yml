@@ -79,7 +79,7 @@ version bump:
 pages:
   stage: publish
   image: node:lts-alpine
-  dependencies: [install dependencies]
+  dependencies: [ui dependencies]
   only: ["master"]
   artifacts:
     paths: [public]
