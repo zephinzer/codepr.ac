@@ -74,6 +74,28 @@ version bump:
   image: usvc/ci:version-bump-gitlab
   script: ["entrypoint"]
 
+api image:
+  stage: publish
+  image: usvc/ci:docker-publish
+  dependencies: [dockerize api]
+  services: ["docker:19.03.1-dind"]
+  only: ["tags"]
+  variables:
+    DOCKER_IMAGE_URL: zephinzer/codeprac-api
+    INPUT_DIRECTORY: ./docker_images
+  script: ["entrypoint"]
+
+ui image:
+  stage: publish
+  image: usvc/ci:docker-publish
+  dependencies: [dockerize ui]
+  services: ["docker:19.03.1-dind"]
+  only: ["tags"]
+  variables:
+    DOCKER_IMAGE_URL: zephinzer/codeprac-ui
+    INPUT_DIRECTORY: ./docker_images
+  script: ["entrypoint"]
+
 pages:
   stage: publish
   image: node:lts-alpine
