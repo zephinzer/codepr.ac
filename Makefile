@@ -155,7 +155,7 @@ ui_image_import:
 prepare_production:
 	chmod +x ./scripts/deploy-docker-compose.sh
 	./scripts/deploy-docker-compose.sh
-deploy_production:
+deploy_production: api_image ui_image_production
 	docker-compose -f ./deploy/docker-compose.deploy.yml up -d
 update_repo:
 	chmod +x ./scripts/update-repo.sh
