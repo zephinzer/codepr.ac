@@ -3,32 +3,46 @@ stages:
   - package
   - release
   - publish
-image: node:lts-alpine
 
-install dependencies:
+ui dependencies:
   stage: initialise
+  image: usvc/ci:js-dependencies
   only: ["master"]
   cache:
-    untracked: true
-    policy: pull-push
-    key: ${CI_COMMIT_REF_NAME}
-    paths:
-      - ./node_modules
-      - ./vendor
+    key: ${CI_COMMIT_REF_NAME}_ui_dependencies
+    paths: ["./node_modules"]
   artifacts:
     expire_in: 1 week
-    paths: [node_modules]
-  script:
-    - npm ci
+    paths: ["./node_modules"]
+  variables:
+    PRODUCTION: 'false'
+  script: ["entrypoint"]
+
+api dependencies:
+  stage: initialise
+  image: usvc/ci:go-dependencies
+  cache:
+    key: ${CI_COMMIT_REF_NAME}_api_dependencies
+    paths: ["./vendor"]
+  artifacts:
+    expire_in: 1 week
+    paths: ["./vendor"]
+  script: ["entrypoint"]
+
 
 dockerize api:
-  allow_failure: true
   stage: package
   only: ["master"]
   services: ["docker:19.03.1-dind"]
   image: usvc/ci:docker-build
   artifacts:
     paths: ["./docker_images/*"]
+  cache:
+    untracked: true
+    policy: pull-push
+    key: ${CI_COMMIT_REF_NAME}_dockerize_api
+    paths:
+      - ./docker_images
   variables:
     DOCKERFILE_PATH: ./deploy/api/Dockerfile
     DOCKER_IMAGE_URL: zephinzer/codeprac-api
@@ -37,13 +51,18 @@ dockerize api:
   script: ["entrypoint"]
 
 dockerize ui:
-  allow_failure: true
   stage: package
   only: ["master"]
   services: ["docker:19.03.1-dind"]
   image: usvc/ci:docker-build
   artifacts:
     paths: ["./docker_images/*"]
+  cache:
+    untracked: true
+    policy: pull-push
+    key: ${CI_COMMIT_REF_NAME}_dockerize_ui
+    paths:
+      - ./docker_images
   variables:
     DOCKERFILE_PATH: ./deploy/ui/Dockerfile
     DOCKER_IMAGE_URL: zephinzer/codeprac-ui
@@ -52,7 +71,6 @@ dockerize ui:
   script: ["entrypoint"]
 
 version bump:
-  allow_failure: true
   stage: release
   only: ["master"]
   image: usvc/ci:version-bump-gitlab
@@ -60,6 +78,7 @@ version bump:
 
 pages:
   stage: publish
+  image: node:lts-alpine
   dependencies: [install dependencies]
   only: ["master"]
   artifacts:

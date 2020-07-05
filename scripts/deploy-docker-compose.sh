@@ -5,7 +5,7 @@ function set_variable {
   printf -- "value for ${VAR_TO_SET}: ";
   read ${VAR_TO_SET};
   echo "setting ${VAR_TO_SET} to \"${!VAR_TO_SET}\"";
-  sed -i '' "s|${VAR_TO_SET}\: .*|${VAR_TO_SET}\: ${!VAR_TO_SET}|g" ./deploy/docker-compose.deploy.yml;
+  sed --in-place "s|${VAR_TO_SET}\: .*|${VAR_TO_SET}\: ${!VAR_TO_SET}|g" ./deploy/docker-compose.deploy.yml;
 }
 
 cp -r ./deploy/docker-compose.yml ./deploy/docker-compose.deploy.yml;
