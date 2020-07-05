@@ -1,9 +1,10 @@
 # directories
 bin
 build
-deploy
+/deploy
 node_modules
 vendor
 
 # files
+.envrc*
 README.md

@@ -1,10 +1,13 @@
 stages:
   - initialise
+  - package
+  - release
   - publish
 image: node:lts-alpine
 
 install dependencies:
   stage: initialise
+  only: ["master"]
   cache:
     untracked: true
     policy: pull-push
@@ -18,11 +21,51 @@ install dependencies:
   script:
     - npm ci
 
+dockerize api:
+  allow_failure: true
+  stage: package
+  only: ["master"]
+  services: ["docker:19.03.1-dind"]
+  image: usvc/ci:docker-build
+  artifacts:
+    paths: ["./docker_images/*"]
+  variables:
+    DOCKERFILE_PATH: ./deploy/api/Dockerfile
+    DOCKER_IMAGE_URL: zephinzer/codeprac-api
+    OUTPUT_DIRECTORY: ./docker_images
+    TEST_SPEC_PATH: ./deploy/api/Dockerfile.yaml
+  script: ["entrypoint"]
+
+dockerize ui:
+  allow_failure: true
+  stage: package
+  only: ["master"]
+  services: ["docker:19.03.1-dind"]
+  image: usvc/ci:docker-build
+  artifacts:
+    paths: ["./docker_images/*"]
+  variables:
+    DOCKERFILE_PATH: ./deploy/ui/Dockerfile
+    DOCKER_IMAGE_URL: zephinzer/codeprac-ui
+    OUTPUT_DIRECTORY: ./docker_images
+    TEST_SPEC_PATH: ./deploy/ui/Dockerfile.yaml
+  script: ["entrypoint"]
+
+version bump:
+  allow_failure: true
+  stage: release
+  only: ["master"]
+  image: usvc/ci:version-bump-gitlab
+  script: ["entrypoint"]
+
 pages:
   stage: publish
   dependencies: [install dependencies]
+  only: ["master"]
   artifacts:
     paths: [public]
+  variables:
+    REACT_APP_API_URL_BASE: ${REACT_APP_API_URL_BASE}
   script:
     - npm run build
     # these are for gitlab pages, see https://gitlab.com/gitlab-org/gitlab-foss/-/issues/40686

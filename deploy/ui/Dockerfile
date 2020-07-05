@@ -1,4 +1,5 @@
 FROM node:12-alpine AS builder
+ARG REACT_APP_API_URL_BASE=http://localhost:30000
 RUN apk update --no-cache
 RUN apk upgrade --no-cache
 WORKDIR /app
@@ -20,4 +21,6 @@ LABEL git_tag "${GIT_TAG}"
 LABEL timestamp "${TIMESTAMP}"
 LABEL maintainer "${MAINTAINER}"
 COPY --from=builder /app/build /usr/share/nginx/html
+RUN rm -rf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/config/ui/nginx/default.conf /etc/nginx/conf.d/default.conf
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

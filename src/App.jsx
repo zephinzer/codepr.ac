@@ -16,12 +16,8 @@ function App() {
       <Router>
         <div className="content">
           <Switch>
-            <Route path="/" exact>
-              <Home />
-            </Route>
-            <Route path="/authentication">
-              <Authentication />
-            </Route>
+            <Route path="/" exact component={Home} />
+            <Route path="/authentication" component={Authentication} />
           </Switch>
         </div>
         <div className="navigation-bar">

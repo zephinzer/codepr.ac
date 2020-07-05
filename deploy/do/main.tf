@@ -29,12 +29,11 @@ resource "digitalocean_project" "default" {
   description = "Infrastructure for codepr.ac"
   purpose     = "HTTP API service with persistent data store"
   environment = var.environment
-  resources = var.flag_api_enabled ? [
-    digitalocean_droplet.api[0].urn,
-    digitalocean_floating_ip.api.urn,
-  ] : [
-    digitalocean_floating_ip.api.urn,
-  ]
+  resources = concat(
+    var.flag_api_enabled ? [digitalocean_droplet.api[0].urn] : [],
+    var.flag_db_enabled ? [digitalocean_database_cluster.mysql[0].urn] : [],
+    [digitalocean_floating_ip.api.urn],
+  )
 }
 
 # ref https://www.terraform.io/docs/providers/do/r/vpc.html
@@ -44,12 +43,24 @@ resource "digitalocean_vpc" "default" {
   ip_range = "10.10.10.0/24"
 }
 
+# ref https://www.terraform.io/docs/providers/do/r/database_cluster.html
+resource "digitalocean_database_cluster" "mysql" {
+  count = var.flag_db_enabled ? 1 : 0
+  name       = "${var.name}-mysql-db"
+  engine     = "mysql"
+  version    = "8"
+  size       = var.db_droplet_size
+  region     = "sgp1"
+  node_count = var.db_droplet_replica_count
+  private_network_uuid = digitalocean_vpc.default.id
+}
+
 # ref https://www.terraform.io/docs/providers/do/r/droplet.html
 resource "digitalocean_droplet" "api" {
   count = var.flag_api_enabled ? 1 : 0
   name     = "${var.name}-api"
-  size     = var.droplet_api_size
-  image    = var.droplet_api_image
+  size     = var.api_droplet_size
+  image    = var.api_droplet_image
   region   = var.region
   private_networking = true
   vpc_uuid = digitalocean_vpc.default.id

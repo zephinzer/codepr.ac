@@ -1,136 +1,186 @@
-output "metadata_droplet_sizes" {
-  description = "Possible droplet sizes to use for provided region"
-  value = data.digitalocean_sizes.options
-}
+# output "metadata_droplet_sizes" {
+#   description = "Possible droplet sizes to use for provided region"
+#   value = data.digitalocean_sizes.options
+# }
 
 output "metadata_region_name" {
   description = "Region name in english"
   value = data.digitalocean_region.selected.name
 }
 
-output "droplet_api_id" {
+output "api_droplet_id" {
   description = "The ID of the Droplet"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].id : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].id : "DISABLED"
 }
 
-output "droplet_api_urn" {
+output "api_droplet_urn" {
   description = "The uniform resource name of the Droplet"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].urn : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].urn : "DISABLED"
 }
 
-output "droplet_api_name" {
+output "api_droplet_name" {
   description = "The name of the Droplet"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].name : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].name : "DISABLED"
 }
 
-output "droplet_api_region" {
+output "api_droplet_region" {
   description = "The region of the Droplet"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].region : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].region : "DISABLED"
 }
 
-output "droplet_api_image" {
+output "api_droplet_image" {
   description = "The image of the Droplet"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].image : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].image : "DISABLED"
 }
 
-output "droplet_api_ipv6" {
+output "api_droplet_ipv6" {
   description = "Is IPv6 enabled"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv6 : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv6 : "DISABLED"
 }
 
-output "droplet_api_ipv6_address" {
+output "api_droplet_ipv6_address" {
   description = "The IPv6 address"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv6_address : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv6_address : "DISABLED"
 }
 
-output "droplet_api_ipv4_address" {
+output "api_droplet_ipv4_address" {
   description = "The internal (but not private) IPv4 address"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv4_address : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv4_address : "DISABLED"
 }
 
-output "droplet_api_ipv4_address_private" {
+output "api_droplet_ipv4_address_private" {
   description = "The private networking IPv4 address"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv4_address_private : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].ipv4_address_private : "DISABLED"
 }
 
-output "droplet_api_ipv4_address_floating" {
+output "api_droplet_ipv4_address_floating" {
   description = "The floating IPv4 address"
   value = digitalocean_floating_ip.api.ip_address
 }
 
-output "droplet_api_ipv4_address_floating_urn" {
+output "api_droplet_ipv4_address_floating_urn" {
   description = "The URN for the API droplet's persistent floating IPv4 address"
   value = digitalocean_floating_ip.api.urn
 }
 
-output "droplet_api_locked" {
+output "api_droplet_locked" {
   description = "Is the Droplet locked"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].locked : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].locked : "DISABLED"
 }
 
-output "droplet_api_private_networking" {
+output "api_droplet_private_networking" {
   description = "Is private networking enabled"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].private_networking : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].private_networking : "DISABLED"
 }
 
-output "droplet_api_price_hourly" {
+output "api_droplet_price_hourly" {
   description = "Droplet hourly price"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].price_hourly : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].price_hourly : "DISABLED"
 }
 
-output "droplet_api_price_monthly" {
+output "api_droplet_price_monthly" {
   description = "Droplet monthly price"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].price_monthly : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].price_monthly : "DISABLED"
 }
 
-output "droplet_api_size" {
+output "api_droplet_size" {
   description = "The instance size"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].size : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].size : "DISABLED"
 }
 
-output "droplet_api_disk" {
+output "api_droplet_disk" {
   description = "The size of the instance's disk in GB"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].disk : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].disk : "DISABLED"
 }
 
-output "droplet_api_vcpus" {
+output "api_droplet_vcpus" {
   description = "The number of the instance's virtual CPUs"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].vcpus : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].vcpus : "DISABLED"
 }
 
-output "droplet_api_status" {
+output "api_droplet_status" {
   description = "The status of the Droplet"
-  value = var.flag_api_enabled ? digitalocean_droplet.api[0].status : "disabled"
+  value = var.flag_api_enabled ? digitalocean_droplet.api[0].status : "DISABLED"
 }
 
-output "droplet_api_tags" {
+output "api_droplet_tags" {
   description = "The tags associated with the Droplet"
   value = var.flag_api_enabled ? digitalocean_droplet.api[0].tags : []
 }
 
-output "droplet_api_volume_ids" {
+output "api_droplet_volume_ids" {
   description = "A list of the attached block storage volumes"
   value = var.flag_api_enabled ? digitalocean_droplet.api[0].volume_ids : []
 }
 
-output "droplet_api_ssh_key_id" {
+output "api_droplet_ssh_key_id" {
   description = "The unique ID of the key"
   value = digitalocean_ssh_key.api.id
 }
 
-output "droplet_api_ssh_key_name" {
+output "api_droplet_ssh_key_name" {
   description = "The name of the SSH key"
   value = digitalocean_ssh_key.api.name
 }
 
-output "droplet_api_ssh_key_public_key" {
+output "api_droplet_ssh_key_public_key" {
   description = "The text of the public key"
   value = digitalocean_ssh_key.api.public_key
 }
 
-output "droplet_api_ssh_key_fingerprint" {
+output "api_droplet_ssh_key_fingerprint" {
   description = "The fingerprint of the SSH key"
   value = digitalocean_ssh_key.api.fingerprint
+}
+
+output "db_id" {
+  description = "The ID of the database cluster."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].id : "DISABLED"
+}
+
+output "db_urn" {
+  description = "The uniform resource name of the database cluster."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].urn : "DISABLED"
+}
+
+output "db_host" {
+  description = "Database cluster's hostname."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].host : "DISABLED"
+}
+
+output "db_private_host" {
+  description = "Same as host, but only accessible from resources within the account and in the same region."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].private_host : "DISABLED"
+}
+
+output "db_port" {
+  description = "Network port that the database cluster is listening on."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].port : "DISABLED"
+}
+
+output "db_uri" {
+  description = "The full URI for connecting to the database cluster."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].uri : "DISABLED"
+}
+
+output "db_private_uri" {
+  description = "Same as uri, but only accessible from resources within the account and in the same region."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].private_uri : "DISABLED"
+}
+
+output "db_database" {
+  description = "Name of the cluster's default database."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].database : "DISABLED"
+}
+
+output "db_user" {
+  description = "Username for the cluster's default user."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].user : "DISABLED"
+}
+
+output "db_password" {
+  description = "Password for the cluster's default user."
+  value = var.flag_db_enabled ? digitalocean_database_cluster.mysql[0].password : "DISABLED"
 }
 
 output "project_id" {

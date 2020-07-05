@@ -132,6 +132,8 @@ ui_image_export:
 ui_image_import:
 	docker load --input $(DOCKER_TARBALL_PATH)/ui.tar.gz
 	
+.envrc:
+	cp ./.envrc.example ./.envrc
 .keys/versioning:
 	mkdir -p ./.keys/versioning
 	ssh-keygen -t rsa -b 8192 -f ./.keys/versioning/id_rsa -q -N ""

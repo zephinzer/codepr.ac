@@ -71,6 +71,7 @@ func HandleGithubOAuthCallback(w http.ResponseWriter, r *http.Request) {
 	}
 	q := loginRedirect.Query()
 	q.Add("access_token", grantResponse.AccessToken)
+	q.Add("platform", "github")
 	loginRedirect.RawQuery = q.Encode()
 	wwwRedirect := loginRedirect.String()
 	w.Header().Add("Location", wwwRedirect)

@@ -3,7 +3,10 @@ import './Authentication.css';
 import logo from 'assets/images/logo.png';
 import LoginButton from 'components/LoginButton';
 
-export function Authentication() {
+export function Authentication({location}) {
+  console.log(location);
+  const apiURL = new URL(process.env.REACT_APP_API_URL_BASE || 'http://localhost:30000');
+  apiURL.pathname = '/session/github';
   return (
     <div className='page-authentication'>
       <br />
@@ -14,11 +17,7 @@ export function Authentication() {
       />
       <br />
       <div className='login-buttons'>
-        <LoginButton 
-          clientId='28462949675b4357b5a6'
-          platform='github'
-          redirectUri='http://localhost:30000/session/github/callback'
-        />
+        <LoginButton href={apiURL.toString()} />
         <LoginButton platform='gitlab' />
       </div>
     </div>

@@ -27,6 +27,7 @@ export const LoginButton = ({
   platform,
   redirectUri,
   scopes,
+  href,
 }) => {
   if(!platform) {
     platform = DEFAULT_PLATFORM;
@@ -43,25 +44,28 @@ export const LoginButton = ({
       </span>  
     );
   }
+  const backgroundColor = PLATFORM[platform].bgColor;
+  const foregroundColor = PLATFORM[platform].fgColor;
+  const icon = PLATFORM[platform].faIcon;
+  const platformName = PLATFORM[platform].name;
+  const targetUrl = href ? href : `${PLATFORM[platform].authUrl}?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}`;
   return (
     <a
-      aria-label={`click to login via ${PLATFORM[platform].name}`}
+      aria-label={`click to login via ${platformName}`}
       className='login-button'
-      href={`${PLATFORM[platform].authUrl}?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}`}
+      href={targetUrl}
     >
       <div className='login-button-content'
         style={{
-          backgroundColor: PLATFORM[platform].bgColor,
-          color: PLATFORM[platform].fgColor,
+          backgroundColor,
+          color: foregroundColor,
         }}>
         <FontAwesomeIcon
           className='icon'
-          icon={PLATFORM[platform].faIcon}
+          icon={icon}
           size='lg'
         />
-        <label>
-          {PLATFORM[platform].name}
-        </label>
+        <label>{platformName}</label>
       </div>
     </a>
   );

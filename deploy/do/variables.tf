@@ -3,16 +3,28 @@ variable "do_token" { # set this using `TF_VAR_do_token` using .envrc
   type = string
 }
 
-variable "droplet_api_image" {
+variable "api_droplet_image" {
   description = "Digital Ocean droplet image ID"
   default = "ubuntu-18-04-x64"
   type = string
 }
 
-variable "droplet_api_size" {
+variable "api_droplet_size" {
   description = "Digital Ocean droplet size"
   default = "s-1vcpu-1gb"
   type = string
+}
+
+variable "db_droplet_size" {
+  description = "Digital Ocean droplet size for database"
+  default = "db-s-1vcpu-1gb"
+  type = string
+}
+
+variable "db_droplet_replica_count" {
+  description = "Digital Ocean droplet replicas for database"
+  default = 1
+  type = number
 }
 
 variable "environment" {
@@ -23,6 +35,12 @@ variable "environment" {
 
 variable "flag_api_enabled" {
   description = "Set to true to enable the API, false to disable it"
+  default = true
+  type = bool
+}
+
+variable "flag_db_enabled" {
+  description = "Set to true to enable the database, false to disable it"
   default = true
   type = bool
 }

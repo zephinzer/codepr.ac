@@ -1,0 +1,11 @@
+#!/bin/sh
+# api
+export GITHUB_CLIENT_ID="";
+export GITHUB_CLIENT_SECRET="";
+export GITHUB_REDIRECT_URI="http://localhost:30000/session/github/callback";
+export LOGIN_URL="http://localhost:3000/login";
+export SERVER_ADDR="0.0.0.0";
+export SERVER_PORT="30000";
+
+# ui
+export REACT_APP_GITHUB_CLIENT_ID="";
