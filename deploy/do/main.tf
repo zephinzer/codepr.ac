@@ -64,7 +64,7 @@ resource "digitalocean_droplet" "api" {
   region   = var.region
   private_networking = true
   vpc_uuid = digitalocean_vpc.default.id
-  user_data = file("${path.module}/userdata/api.sh")
+  user_data = file("${path.module}/userdata/20200705/api.sh")
   ssh_keys = [
     digitalocean_ssh_key.api.fingerprint,
   ]
