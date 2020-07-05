@@ -129,6 +129,19 @@ ui_image:
 		--file ./deploy/ui/Dockerfile \
 		--tag $(DOCKER_IMAGE_PATH)-ui:latest \
 		.
+ui_image_production:
+	docker build \
+		--build-arg REACT_APP_API_URL_BASE=https://api.codepr.ac \
+		--build-arg GIT_REPO_URL=$(GIT_REPO_URL) \
+		--build-arg GIT_COMMIT=$(GIT_COMMIT) \
+		--build-arg GIT_TAG=$(GIT_TAG) \
+		--build-arg GO_PACKAGE_URL=$(GO_PACKAGE_URL) \
+		--build-arg TIMESTAMP=$(TIMESTAMP) \
+		--build-arg MAINTAINER=$(MAINTAINER) \
+		--build-arg CMD_NAME=$(CMD_NAME) \
+		--file ./deploy/ui/Dockerfile \
+		--tag $(DOCKER_IMAGE_PATH)-ui:latest \
+		.
 ui_image_test: image
 	container-structure-test test \
 		--config ./deploy/ui/Dockerfile.yaml \
