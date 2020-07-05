@@ -166,7 +166,7 @@ echo "firewall has been updated for application use" >> /userdata-steps;
 # Initialise application
 git clone https://gitlab.com/zephinzer/codepr.ac.git /home/${USERNAME}/src;
 chown ${USERNAME}:${USERNAME} -R /home/${USERNAME}/src;
-cd /home/${USERNAME}/src && make api_image && make ui_image;
+cd /home/${USERNAME}/src && make api_image && make ui_image_production;
 echo "application has been seeded" >> /userdata-steps;
 
 # Setup fail2ban

@@ -88,7 +88,9 @@ The supplied user data sets up the server but does not deploy anything. After de
 3. From `~/src`, run `docker-compose -f ./deploy/docker-compose.deploy.yml up -d` to start the application
 
 **Notes**
-- To update the application, run `./scripts/update-repo.sh`
+- To update the application source in production, run `make update_repo`
+- To update the environment variables in production, run `make prepare_production`
+- To deploy production, run `make deploy_production`
 
 - - -
 
