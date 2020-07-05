@@ -12,13 +12,16 @@
     "react-dom": "^16.13.1",
     "react-github-login-button": "^1.0.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "serve": "^11.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "preserve": "npm run build",
+    "serve": "serve -s build -l 3000"
   },
   "eslintConfig": {
     "extends": "react-app"

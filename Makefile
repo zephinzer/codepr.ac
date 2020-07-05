@@ -19,11 +19,16 @@ ui_deps:
 	npm install
 	npm ci
 start_db:
-	docker-compose -f ./deploy/dev/docker-compose.yml up -d
+	docker-compose -f ./deploy/db/docker-compose.yml up -d
 start_api:
 	go run -v -mod=vendor ./cmd/$(CMD_NAME) start
+start_api_production: api_production
+	chmod +x ./bin/$(BIN_PATH)
+	./bin/$(BIN_PATH)
 start_ui:
 	npm start
+start_ui_production: ui_production
+	npm run serve
 test_api:
 	go test -v -mod=vendor ./... -cover -coverprofile c.out
 api:
@@ -110,6 +115,8 @@ api_image_export:
 	docker save --output $(DOCKER_TARBALL_PATH)/api.tar.gz $(DOCKER_IMAGE_PATH)-api:latest
 api_image_import:
 	docker load --input $(DOCKER_TARBALL_PATH)/api.tar.gz
+ui_production:
+	npm run build
 ui_image:
 	docker build \
 		--build-arg GIT_REPO_URL=$(GIT_REPO_URL) \
@@ -131,7 +138,14 @@ ui_image_export:
 	docker save --output $(DOCKER_TARBALL_PATH)/ui.tar.gz $(DOCKER_IMAGE_PATH)-ui:latest
 ui_image_import:
 	docker load --input $(DOCKER_TARBALL_PATH)/ui.tar.gz
-	
+
+deploy_repo:
+	chmod +x ./scripts/deploy-docker-compose.sh
+	./scripts/deploy-docker-compose.sh
+update_repo:
+	chmod +x ./scripts/update-repo.sh
+	./scripts/update-repo.sh
+
 .envrc:
 	cp ./.envrc.example ./.envrc
 .keys/versioning:

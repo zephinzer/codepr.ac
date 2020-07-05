@@ -87,6 +87,8 @@ The supplied user data sets up the server but does not deploy anything. After de
 2. Navigate to `~/src`, run `./scripts/deploy-docker-compose.sh`, and fill up the variables
 3. From `~/src`, run `docker-compose -f ./deploy/docker-compose.deploy.yml up -d` to start the application
 
+**Notes**
+- To update the application, run `./scripts/update-repo.sh`
 
 - - -
 
@@ -114,9 +116,11 @@ The following section assumes commands being run **from the project root**.
 1. Clone this repository locally
 2. Install Node.js dependencies using `npm ci` (or `make ui_deps`)
 3. Install Golang dependencies using `go mod vendor` (or `make api_deps`)
-4. Start the MySQL database by running `docker-compose -f ./deploy/dev/docker-compose.yml up -d` (or `make start_db`). You should be able to access it using `mysql -uuser -ppassword -h127.0.0.1 -P33060 database`.
+4. Start the MySQL database by running `docker-compose -f ./deploy/db/docker-compose.yml up -d` (or `make start_db`). You should be able to access it using `mysql -uuser -ppassword -h127.0.0.1 -P33060 database`.
 5. Start the API server by running `go run ./cmd/codeprac start` (or `make start_api`). You should be able to access it at [http://localhost:30000](http://localhost:30000).
+      - To test the behaviour with a production build, use `make start_api_production`
 6. Start the web application by running `npm start` (or `make start_ui`). You should be able to access it at [http://localhost:3000](http://localhost:3000).
+      - To test the behaviour with a production build, use `make start_ui_production` (this uses the `npm` package `serve`, final production uses a Nginx server)
 
 
 ## Configuring the local application
