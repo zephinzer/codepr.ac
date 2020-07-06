@@ -70,6 +70,24 @@ resource "digitalocean_droplet" "api" {
   ]
 }
 
+# ref https://www.terraform.io/docs/providers/do/r/volume.html
+resource "digitalocean_volume" "mysql" {
+  count = var.flag_api_mysql_enabled && var.flag_api_enabled ? 1 : 0
+  region                   = "sgp1"
+  name                     = "${var.name}-mysql"
+  size                     = 20
+  initial_filesystem_type  = "ext4"
+  initial_filesystem_label = "mysql"
+  description              = "volume for storing /var/lib/mysql of mysql docker so we have persistent data"
+}
+
+# ref https://www.terraform.io/docs/providers/do/r/volume_attachment.html
+resource "digitalocean_volume_attachment" "api_mysql" {
+  count = var.flag_api_mysql_enabled && var.flag_api_enabled ? 1 : 0
+  droplet_id = digitalocean_droplet.api[0].id
+  volume_id  = digitalocean_volume.mysql[0].id
+}
+
 # ref https://www.terraform.io/docs/providers/do/r/floating_ip.html
 resource "digitalocean_floating_ip" "api" {
   droplet_id = var.flag_api_enabled ? digitalocean_droplet.api[0].id : null

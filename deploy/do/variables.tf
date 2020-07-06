@@ -39,9 +39,15 @@ variable "flag_api_enabled" {
   type = bool
 }
 
+variable "flag_api_mysql_enabled" {
+  description = "Set to true to enable the persistent volume for the self-hosted MySQL, false to disable it"
+  default = true
+  type = bool
+}
+
 variable "flag_db_enabled" {
   description = "Set to true to enable the database, false to disable it"
-  default = true
+  default = false
   type = bool
 }
 

@@ -22,7 +22,7 @@ API_HASH_EXISTING="$(docker inspect ${API_IMAGE_URI} --format '{{index .RepoDige
 docker pull ${API_IMAGE_URI};
 API_HASH_LATEST="$(docker inspect ${API_IMAGE_URI} --format '{{index .RepoDigests 0}}' | cut -d ':' -f 2)";
 if [ "${API_HASH_EXISTING}" != "${API_HASH_LATEST}" ]; then
-  docker-compose -f /home/${USERNAME}/src/deploy/docker-compose.deploy.yml up -d api;
+  cd /home/${USERNAME}/src && make deploy_production;
 fi;
 echo "${API_IMAGE_URI}|${API_HASH_LATEST}" >> /var/log/update-service.log;
 
@@ -30,10 +30,10 @@ echo "${API_IMAGE_URI}|${API_HASH_LATEST}" >> /var/log/update-service.log;
 # update ui #
 #############
 
-UI_HASH_EXISTING="$(docker inspect ${UI_IMAGE_HASH} --format '{{index .RepoDigests 0}}' | cut -d ':' -f 2)";
+UI_HASH_EXISTING="$(docker inspect ${UI_IMAGE_URI} --format '{{index .RepoDigests 0}}' | cut -d ':' -f 2)";
 docker pull ${UI_IMAGE_URI};
-UI_HASH_LATEST="$(docker inspect ${UI_IMAGE_HASH} --format '{{index .RepoDigests 0}}' | cut -d ':' -f 2)";
+UI_HASH_LATEST="$(docker inspect ${UI_IMAGE_URI} --format '{{index .RepoDigests 0}}' | cut -d ':' -f 2)";
 if [ "${UI_HASH_EXISTING}" != "${UI_HASH_LATEST}" ]; then
-  docker-compose -f /home/${USERNAME}/src/deploy/docker-compose.deploy.yml up -d ui;
+  cd /home/${USERNAME}/src && make deploy_production;
 fi;
-echo "${UI_IMAGE_HASH}|${UI_HASH_LATEST}" >> /var/log/update-service.log;
+echo "${UI_IMAGE_URI}|${UI_HASH_LATEST}" >> /var/log/update-service.log;

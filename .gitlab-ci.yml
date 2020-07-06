@@ -64,7 +64,10 @@ dockerize ui:
     DOCKER_IMAGE_URL: zephinzer/codeprac-ui
     OUTPUT_DIRECTORY: ./docker_images
     TEST_SPEC_PATH: ./deploy/ui/Dockerfile.yaml
-  script: ["entrypoint"]
+    REACT_APP_API_URL_BASE: ${REACT_APP_API_URL_BASE}
+  script:
+    - make ui_image_production
+    - make ui_image_export
 
 version bump:
   stage: release
@@ -92,6 +95,7 @@ ui image:
   variables:
     DOCKER_IMAGE_URL: zephinzer/codeprac-ui
     INPUT_DIRECTORY: ./docker_images
+    INPUT_FILENAME: ui.tar.gz
   script: ["entrypoint"]
 
 pages:

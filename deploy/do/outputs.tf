@@ -208,6 +208,67 @@ output "project_updated_at" {
   value = digitalocean_project.default.updated_at
 }
 
+output "volume_mysql_id" {
+  description = "The unique identifier for the volume."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].id : "DISABLED"
+}
+
+output "volume_mysql_urn" {
+  description = "The uniform resource name for the volume."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].urn : "DISABLED"
+}
+
+output "volume_mysql_name" {
+  description = "Name of the volume."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].name : "DISABLED"
+}
+
+output "volume_mysql_description" {
+  description = "Description of the volume."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].description : "DISABLED"
+}
+
+output "volume_mysql_tags" {
+  description = "List of applied tags to the volume."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].tags : []
+}
+
+output "volume_mysql_region" {
+  description = "The region that the volume is created in."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].region : "DISABLED"
+}
+
+output "volume_mysql_droplet_ids" {
+  description = "A list of associated droplet ids."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].droplet_ids : []
+}
+
+output "volume_mysql_snapshot_id" {
+  description = "The ID of the existing volume snapshot from which this volume was created from."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].snapshot_id : "DISABLED"
+}
+
+output "volume_mysql_filesystem_type" {
+  description = "Filesystem type (xfs or ext4) for the block storage volume."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].filesystem_type : "DISABLED"
+}
+
+output "volume_mysql_filesystem_label" {
+  description = "Filesystem label for the block storage volume."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].filesystem_label : "DISABLED"
+}
+
+output "volume_mysql_initial_filesystem_type" {
+  description = "Filesystem type (xfs or ext4) for the block storage volume when it was first created."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].initial_filesystem_type : "DISABLED"
+}
+
+output "volume_mysql_initial_filesystem_label" {
+  description = "Filesystem label for the block storage volume when it was first created."
+  value = var.flag_api_mysql_enabled && var.flag_api_enabled ? digitalocean_volume.mysql[0].initial_filesystem_label : "DISABLED"
+}
+
+
 output "vpc_id" {
   description = "Unique identifier for the VPC"
   value = digitalocean_vpc.default.id
