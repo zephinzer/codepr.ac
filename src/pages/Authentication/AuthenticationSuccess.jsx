@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import {getSelf} from 'controllers/github/self';
 import {setPersistentLogin, unsetPersistentLogin} from 'controllers/authentication';
+import Button from 'components/Button';
 
 const initialState = {
   imageUrl: '',
@@ -12,7 +13,7 @@ const initialState = {
   rawData: {},
 }
 
-async function getGithubUser(accessToken, platform, setData) {
+async function getGithubUser(accessToken, setData) {
   const user = await getSelf({accessToken});
   if (user.isError) {
     unsetPersistentLogin()
@@ -23,7 +24,7 @@ async function getGithubUser(accessToken, platform, setData) {
       success: false,
     });
   }
-  setPersistentLogin({accessToken, platform});
+  setPersistentLogin({accessToken, platform: 'github'});
   setData({
     imageUrl: user.data['avatar_url'],
     initialised: true,
@@ -42,7 +43,8 @@ export function AuthenticationSuccess({
   useEffect(() => {
     switch(platform) {
       case 'github':
-        getGithubUser(accessToken, platform, setData);
+        getGithubUser(accessToken, setData);
+        console.info('made call to github');
         break;
       default:
         setData({
@@ -76,6 +78,12 @@ export function AuthenticationSuccess({
               <span className='name'>
                 {data.name}
               </span>
+              <br />
+              <Button
+                href='/_/dashboard'
+              >
+                Go to your dashboard
+              </Button>
             </div>
           )
           :

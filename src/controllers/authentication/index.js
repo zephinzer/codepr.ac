@@ -10,11 +10,26 @@ export {
   KEY_LAST_MODIFIED,
   KEY_LOCK,
   KEY_PLATFORM,
+  getAccessToken,
+  getLastModified,
+  getPlatform,
   isAuthenticated,
   isLocalStorageAvailable,
   setPersistentLogin,
   unsetPersistentLogin,
 };
+
+function getAccessToken() {
+  return localStorage.getItem(KEY_ACCESS_TOKEN);
+}
+
+function getLastModified() {
+  return localStorage.getItem(KEY_LAST_MODIFIED);
+}
+
+function getPlatform() {
+  return localStorage.getItem(KEY_PLATFORM);
+}
 
 function isAuthenticated() {
   if (!isLocalStorageAvailable()) {

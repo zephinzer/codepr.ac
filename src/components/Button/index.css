@@ -1,0 +1,25 @@
+a.component-button {
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px;
+  transition: 0.1s ease;
+}
+
+a.component-button:hover {
+  opacity: 0.9;
+  transition: 0.1s ease;
+}
+
+a.component-button:active {
+  opacity: 0.8;
+  transition: 0.1s ease;
+}
+
+a.component-button * {
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}

@@ -2,7 +2,6 @@ import React from 'react';
 
 import {faGithub, faGitlab} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import './LoginButton.css';
 
 const DEFAULT_PLATFORM = 'github';
 const PLATFORM = {
@@ -22,13 +21,13 @@ const PLATFORM = {
   },
 };
 
-export const LoginButton = ({
+export default function LoginButton({
   clientId,
   platform,
   redirectUri,
   scopes,
   href,
-}) => {
+}) {
   if(!platform) {
     platform = DEFAULT_PLATFORM;
   }

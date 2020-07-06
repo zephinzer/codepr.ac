@@ -12,7 +12,7 @@
 .page-authentication > .login-buttons {
   display: inline-block;
   margin: 8px;
-  width: 230px;
+  width: 256px;
 }
 
 .page-authentication > .login-buttons > * {

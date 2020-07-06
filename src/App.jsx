@@ -48,7 +48,7 @@ function App() {
                   aria-label='login to codeprac'
                   to="/_/authentication"
                 >
-                  <FontAwesomeIcon size="lg" icon={faLockOpen} />
+                  <FontAwesomeIcon size="lg" icon={faTachometerAlt} />
                 </Link>
               ) : null
             }

@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-.app .navigation-bar {
+.app > .navigation-bar {
   bottom: 0;
   position: fixed;
   background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.05));
@@ -17,18 +17,36 @@
   scrollbar-width: none;
 }
 
-.app .navigation-bar::-webkit-scrollbar {
+.app > .navigation-bar::-webkit-scrollbar {
   display: none;
 }
 
-.app .navigation-bar-content {
+@media only screen and (min-width: 1161px) {
+  .app > .navigation-bar {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.05));
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 64px;
+  }
+}
+
+.app > .navigation-bar > .navigation-bar-content {
   align-items: center;
   display: inline-flex;
   height: 64px;
   min-width: 100%;
 }
 
-.app .navigation-bar-content a {
+@media only screen and (min-width: 1161px) { 
+  .app > .navigation-bar > .navigation-bar-content {
+    flex-direction: column;
+    height: 100%;
+  }
+}
+
+.app > .navigation-bar > .navigation-bar-content > a {
   align-items: center;
   background-color: #333;
   border-radius: 100px;
@@ -38,25 +56,28 @@
   font-size: 1.1em;
   height: 48px;
   justify-content: center;
-  margin: 0 8px;
+  margin: 8px 8px;
   text-align: center;
   transition: 0.2s ease-out;
   width: 48px;
 }
 
-.app .navigation-bar-content a:hover {
+.app > .navigation-bar > .navigation-bar-content > a:hover {
   color: #FFF;
   cursor: pointer !important;
   transition: 0.1s ease-in;
 }
 
-.app .navigation-bar-content a:hover * {
+.app > .navigation-bar > .navigation-bar-content > a:hover * {
   box-shadow: 0 0 4px rgba(255,255,255,0.1);
   cursor: pointer !important;
 }
 
-.app .content {
+.app > .content {
+  align-items: center;
   display: flex;
   flex: 1;
+  flex-direction: column;
+  /* justify-content: center; */
   padding-bottom: 48px;
 }

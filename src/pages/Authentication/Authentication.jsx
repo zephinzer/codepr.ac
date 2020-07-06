@@ -3,18 +3,25 @@ import logo from 'assets/images/logo.png';
 import LoginButton from 'components/LoginButton';
 import {AuthenticationSuccess} from './AuthenticationSuccess';
 import {AuthenticationError} from './AuthenticationError';
+import {AuthenticationLogout} from './AuthenticationLogout';
 
 export default function Authentication({location}) {
   const isAuthenticationCallback = !!location.search;
   let accessToken,
     isAuthenticationSuccess,
+    isLogoutAttempt,
     platform,
     searchParams;
+    console.log('why');
   if (isAuthenticationCallback) {
     searchParams = new URLSearchParams(location.search);
     isAuthenticationSuccess = searchParams.has('access_token');
-    accessToken = searchParams.get('access_token');
-    platform = searchParams.get('platform');
+    if (isAuthenticationSuccess) {
+      accessToken = searchParams.get('access_token');
+      platform = searchParams.get('platform');
+    } else if (searchParams.has('logout')) {
+      isLogoutAttempt = searchParams.has('logout')
+    }
   }
   return (
     <div className='page-authentication'>
@@ -29,11 +36,17 @@ export default function Authentication({location}) {
         isAuthenticationCallback ?
           (
             isAuthenticationSuccess ?
+            (
               <AuthenticationSuccess
                 accessToken={accessToken}
                 platform={platform}
               />
-              : <AuthenticationError />
+            ) : isLogoutAttempt ?
+              (
+                <AuthenticationLogout />
+              ) : (
+                <AuthenticationError />
+              )
           )
           : <LoginButtons />
       }
