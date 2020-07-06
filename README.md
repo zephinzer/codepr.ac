@@ -4,6 +4,8 @@
 
 # Codeprac
 
+[![pipeline status](https://gitlab.com/zephinzer/codepr.ac/badges/master/pipeline.svg)](https://gitlab.com/zephinzer/codepr.ac/-/commits/master)
+
 A service for reviewing design decisions made in code.
 
 > The inspiration for this service is: I've found it useful over the years to redo simple applications I've written in the past. Relooking over past code and what I just wrote gave me an idea of my progress through evaluating what I now consider important compared to what I used to consider important. I wished there was a better way to remember why I wrote what I did instead of relying on a README.md.
@@ -84,8 +86,12 @@ The frontend variables are injected at build-time and should be defined in the d
 The supplied user data sets up the server but does not deploy anything. After deployment of the infrastructure, **do the following from the `./deploy/do` directory**:
 
 1. Run `make ssh_api` to gain a shell into the API server
-2. Navigate to `~/src`, run `./scripts/deploy-docker-compose.sh`, and fill up the variables
+2. Navigate to `~/src`, run `./scripts/init-docker-compose.deploy.sh`, and fill up the variables
 3. From `~/src`, run `docker-compose -f ./deploy/docker-compose.deploy.yml up -d` to start the application
+4. Copy the script at `./scripts/update-service.sh` to `/opt/scripts/update-service.sh` and set the executable flag on it
+5. Run `sudo crontab -e` (note: use `sudo`) and add a new line `*/5 * * * * /opt/scripts/update-service.sh`, this enables auto-updating of the production services
+6. Copy the script at `./scripts/update-repo.sh` to `~/update-repo.sh` and set the executable flag on it
+7. Run `crontab -e` (note: no `sudo`) and add a new line `*/5 * * * * cd /home/codeprac/src && /home/codeprac/update-repo.sh`, this enables auto-updating of the production repository
 
 **Notes**
 - To update the application source in production, run `make update_repo`
