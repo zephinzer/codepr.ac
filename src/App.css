@@ -7,35 +7,50 @@
 }
 
 .app .navigation-bar {
-  align-items: center;
-  display: flex;
-  height: 12vh;
-  flex-direction: row;
+  bottom: 0;
+  position: fixed;
+  background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.05));
+  width: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.app .navigation-bar a {
+.app .navigation-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.app .navigation-bar-content {
+  align-items: center;
+  display: inline-flex;
+  height: 64px;
+  min-width: 100%;
+}
+
+.app .navigation-bar-content a {
   align-items: center;
   background-color: #333;
   border-radius: 100px;
   color: #DDD;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   font-size: 1.1em;
-  height: 8vh;
+  height: 48px;
   justify-content: center;
   margin: 0 8px;
   text-align: center;
   transition: 0.2s ease-out;
-  width: 8vh;
+  width: 48px;
 }
 
-.app .navigation-bar a:hover {
+.app .navigation-bar-content a:hover {
   color: #FFF;
   cursor: pointer !important;
   transition: 0.1s ease-in;
 }
 
-.app .navigation-bar a:hover * {
+.app .navigation-bar-content a:hover * {
   box-shadow: 0 0 4px rgba(255,255,255,0.1);
   cursor: pointer !important;
 }
@@ -43,4 +58,5 @@
 .app .content {
   display: flex;
   flex: 1;
+  padding-bottom: 48px;
 }

@@ -7,8 +7,11 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.1",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
+    "babel-plugin-auto-import": "^1.0.5",
     "cra-template": "1.0.3",
+    "customize-cra": "^1.0.0",
     "react": "^16.13.1",
+    "react-app-rewired": "^2.1.6",
     "react-dom": "^16.13.1",
     "react-github-login-button": "^1.0.1",
     "react-router-dom": "^5.2.0",
@@ -17,9 +20,9 @@
     "serve": "^11.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "preserve": "npm run build",
     "serve": "serve -s build -l 3000"

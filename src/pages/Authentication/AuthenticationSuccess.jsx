@@ -1,4 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
+import {getSelf} from 'controllers/github/self';
+import {setPersistentLogin, unsetPersistentLogin} from 'controllers/authentication';
 
 const initialState = {
   imageUrl: '',
@@ -7,32 +9,28 @@ const initialState = {
   errorMessage: '',
   initialised: false,
   success: false,
+  rawData: {},
 }
 
 async function getGithubUser(accessToken, platform, setData) {
-  const response = await fetch('https://api.github.com/user', {
-    headers: {
-      'Authorization': `token ${accessToken}`,
-      'Origin': 'https://api.codepr.ac',
-    }
-  });
-  const data = await response.json();
-  if(response.status !== 200) {
+  const user = await getSelf({accessToken});
+  if (user.isError) {
+    unsetPersistentLogin()
     return setData({
-      errorMessage: data.message,
+      errorMessage: `${user.message}: ${user.data.message}`,
       initialised: true,
+      rawData: user.data,
       success: false,
-    })
+    });
   }
-  localStorage.setItem('login_time', new Date())
-  localStorage.setItem('login_token', accessToken)
-  localStorage.setItem('login_platform', platform)
+  setPersistentLogin({accessToken, platform});
   setData({
-    imageUrl: data['avatar_url'],
-    name: data.name,
-    username: data.login,
+    imageUrl: user.data['avatar_url'],
     initialised: true,
+    name: user.data.name,
+    rawData: user.data,
     success: true,
+    username: user.data.login,
   });
 }
 
@@ -46,6 +44,12 @@ export function AuthenticationSuccess({
       case 'github':
         getGithubUser(accessToken, platform, setData);
         break;
+      default:
+        setData({
+          errorMessage: 'no platform was provided',
+          initialised: false,
+          success: false,
+        })
     }
   }, [accessToken, platform]);
   
@@ -60,7 +64,11 @@ export function AuthenticationSuccess({
               <h1>
                 Welcome
               </h1>
-              <img className='profile-image' src={data.imageUrl} />
+              <img
+                alt='your profile pic'
+                className='profile-image'
+                src={data.imageUrl}
+              />
               <br />
               <span className='username'>
                 {data.username}

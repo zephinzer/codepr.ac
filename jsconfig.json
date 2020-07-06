@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "src"
+    "baseUrl": "./src",
+    "checkJs": true,
+    "module": "commonjs"
   },
-  "include": ["src"]
+  "include": ["./src"]
 }

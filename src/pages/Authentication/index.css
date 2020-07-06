@@ -27,12 +27,11 @@
 
 .authentication-success span.name {
   display: block;
-  font-size: 12px;
   font-weight: 200;
 }
 
 .authentication-success span.username {
   display: block;
-  font-size: 16px;
+  font-size: 1.5em;
   font-weight: 400;
 }

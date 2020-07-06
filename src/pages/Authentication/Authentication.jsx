@@ -1,11 +1,10 @@
 import React from 'react';
-import './Authentication.css';
 import logo from 'assets/images/logo.png';
 import LoginButton from 'components/LoginButton';
 import {AuthenticationSuccess} from './AuthenticationSuccess';
 import {AuthenticationError} from './AuthenticationError';
 
-export function Authentication({location}) {
+export default function Authentication({location}) {
   const isAuthenticationCallback = !!location.search;
   let accessToken,
     isAuthenticationSuccess,
