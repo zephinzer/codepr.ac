@@ -33,17 +33,17 @@ dockerize api:
   services: ["docker:19.03.1-dind"]
   image: usvc/ci:docker-build
   artifacts:
-    paths: ["./docker_images/*"]
+    paths: ["./output/*"]
   cache:
     untracked: true
     policy: pull-push
     key: ${CI_COMMIT_REF_NAME}_dockerize_api
     paths:
-      - ./docker_images
+      - ./output
   variables:
     DOCKERFILE_PATH: ./deploy/api/Dockerfile
     DOCKER_IMAGE_URL: zephinzer/codeprac-api
-    OUTPUT_DIRECTORY: ./docker_images
+    OUTPUT_DIRECTORY: ./output
     TEST_SPEC_PATH: ./deploy/api/Dockerfile.yaml
   script: ["entrypoint"]
 
@@ -52,17 +52,17 @@ dockerize ui:
   services: ["docker:19.03.1-dind"]
   image: usvc/ci:docker-build
   artifacts:
-    paths: ["./docker_images/*"]
+    paths: ["./output/*"]
   cache:
     untracked: true
     policy: pull-push
     key: ${CI_COMMIT_REF_NAME}_dockerize_ui
     paths:
-      - ./docker_images
+      - ./output
   variables:
     DOCKERFILE_PATH: ./deploy/ui/Dockerfile
     DOCKER_IMAGE_URL: zephinzer/codeprac-ui
-    OUTPUT_DIRECTORY: ./docker_images
+    OUTPUT_DIRECTORY: ./output
     TEST_SPEC_PATH: ./deploy/ui/Dockerfile.yaml
     REACT_APP_API_URL_BASE: ${REACT_APP_API_URL_BASE}
   script:
@@ -83,7 +83,7 @@ api image:
   only: ["tags"]
   variables:
     DOCKER_IMAGE_URL: zephinzer/codeprac-api
-    INPUT_DIRECTORY: ./docker_images
+    INPUT_DIRECTORY: ./output
   script: ["entrypoint"]
 
 ui image:
@@ -94,7 +94,7 @@ ui image:
   only: ["tags"]
   variables:
     DOCKER_IMAGE_URL: zephinzer/codeprac-ui
-    INPUT_DIRECTORY: ./docker_images
+    INPUT_DIRECTORY: ./output
     INPUT_FILENAME: ui.tar.gz
   script: ["entrypoint"]
 

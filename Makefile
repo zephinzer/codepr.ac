@@ -147,7 +147,7 @@ ui_image_test: image
 		--config ./deploy/ui/Dockerfile.yaml \
 		--image $(DOCKER_IMAGE_PATH)-ui:latest
 ui_image_export:
-	mkdir -p ./build
+	mkdir -p $(DOCKER_TARBALL_PATH)
 	docker save --output $(DOCKER_TARBALL_PATH)/ui.tar.gz $(DOCKER_IMAGE_PATH)-ui:latest
 ui_image_import:
 	docker load --input $(DOCKER_TARBALL_PATH)/ui.tar.gz
