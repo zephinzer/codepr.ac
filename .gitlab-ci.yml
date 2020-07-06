@@ -30,7 +30,6 @@ api dependencies:
 
 dockerize api:
   stage: package
-  only: ["master"]
   services: ["docker:19.03.1-dind"]
   image: usvc/ci:docker-build
   artifacts:
@@ -50,7 +49,6 @@ dockerize api:
 
 dockerize ui:
   stage: package
-  only: ["master"]
   services: ["docker:19.03.1-dind"]
   image: usvc/ci:docker-build
   artifacts:
