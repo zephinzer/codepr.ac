@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from 'assets/images/logo.png';
 import LoginButton from 'components/LoginButton';
 import {AuthenticationSuccess} from './AuthenticationSuccess';

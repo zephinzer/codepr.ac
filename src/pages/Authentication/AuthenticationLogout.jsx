@@ -1,4 +1,3 @@
-import React from 'react';
 import {unsetPersistentLogin} from 'controllers/authentication';
 
 export function AuthenticationLogout() {
