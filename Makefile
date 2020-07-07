@@ -19,7 +19,9 @@ ui_deps:
 	npm install
 	npm ci
 start_db:
-	docker-compose -f ./deploy/db/docker-compose.yml up -d
+	docker-compose -f ./deploy/docker-compose.yml up -d -V database
+db_shell:
+	mysql -umysql_username -pmysql_password -h127.0.0.1 -P3307
 start_api:
 	go run -v -mod=vendor ./cmd/$(CMD_NAME) start
 start_api_production: api_production
@@ -131,7 +133,7 @@ ui_image:
 		.
 ui_image_production:
 	docker build \
-		--build-arg REACT_APP_API_URL_BASE=https://api.codepr.ac \
+		--build-arg REACT_APP_API_URL_BASE=https://apiv1.codepr.ac \
 		--build-arg GIT_REPO_URL=$(GIT_REPO_URL) \
 		--build-arg GIT_COMMIT=$(GIT_COMMIT) \
 		--build-arg GIT_TAG=$(GIT_TAG) \

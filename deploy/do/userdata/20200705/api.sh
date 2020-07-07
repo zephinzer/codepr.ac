@@ -112,16 +112,9 @@ ssl_session_timeout 10m;
 
 server {
   listen 80 default_server;
-  listen [::]:80 default_server;
-  server_name insecure-api.codepr.ac;
-  location / {
-    proxy_pass http://localhost:30001/;
-    proxy_set_header X-Real-IP $remote_addr;
-  }
-  location /ui {
-    proxy_pass http://localhost:3001/;
-    proxy_set_header X-Real-IP $remote_addr;
-  }
+	listen [::]:80 default_server;
+	server_name _;
+	return 301 https://$host$request_uri;
 }
 
 server {
@@ -129,7 +122,7 @@ server {
   listen [::]:443 ssl;
   ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
   ssl_ciphers         HIGH:!aNULL:!MD5;
-  server_name api.codepr.ac;
+  server_name apiv1.codepr.ac;
   location / {
     proxy_pass http://localhost:30001/;
     proxy_set_header X-Real-IP $remote_addr;
@@ -142,7 +135,7 @@ server {
   listen [::]:443 ssl;
   ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
   ssl_ciphers         HIGH:!aNULL:!MD5;
-  server_name ui.codepr.ac;
+  server_name www.codepr.ac;
   location / {
     proxy_pass http://localhost:3001/;
     proxy_set_header X-Real-IP $remote_addr;
@@ -150,10 +143,15 @@ server {
   # Certbot should insert certificates below this comment
 }
 EOF
-certbot --nginx --non-interactive --agree-tos -d api.codepr.ac -m webmaster@codepr.ac;
-certbot --nginx --non-interactive --agree-tos -d ui.codepr.ac -m webmaster@codepr.ac;
-nginx -t;
-nginx -s reload;
+# below failures are hidden because certbot might fail to provision certs
+certbot --nginx --non-interactive --agree-tos -d apiv1.codepr.ac -m webmaster@codepr.ac \
+  || echo 'ERR: provisioning of ssl certs for apiv1.codepr.ac failed' >> /userdata-steps;
+certbot --nginx --non-interactive --agree-tos -d www.codepr.ac -m webmaster@codepr.ac \
+  || echo 'ERR: provisioning of ssl certs for www.codepr.ac failed' >> /userdata-steps;
+nginx -t \
+  || echo 'ERR: nginx config test failed' >> /userdata-steps;
+nginx -s reload \
+  || echo 'ERR: nginx did not reload' >> /userdata-steps;
 sed --in-place 's/^127.0.0.1 localhost/127.0.0.1 localhost api.codepr.ac ui.codepr.ac/g' /etc/hosts;
 echo "nginx has been configured" >> /userdata-steps;
 

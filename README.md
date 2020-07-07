@@ -81,6 +81,21 @@ The frontend variables are injected at build-time and should be defined in the d
 8. Run `make up` for subsequent runs to bring up the API server only
 9. Run `make destroy` to destroy all infrastructure
 
+**Notes**
+- To debug the userdata setting up, run `make ssh_api` and once inside the server, run `sudo tail -f /var/log/cloud-init-output.log`
+- If renewing droplet, remember to mount the volume using:
+    - `mkdir -p /mnt/codeprac_mysql`
+    - `mount -o discard,defaults,noatime /dev/disk/by-id/scsi-0DO_Volume_codeprac-mysql /mnt/codeprac_mysql`
+    - `echo '/dev/disk/by-id/scsi-0DO_Volume_codeprac-mysql /mnt/codeprac_mysql ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab`
+- If we hit the rate-limit for `certbot`, we might get an error, to fix this:
+    - SSH into the server and scp the certificates over
+    - Add `ssl_certificate /etc/letsencrypt/live/apiv1.codepr.ac/fullchain.pem; # managed by Certbot` to the `apiv1.codepr.ac` server block
+    - Add `ssl_certificate_key /etc/letsencrypt/live/apiv1.codepr.ac/privkey.pem; # managed by Certbot` to the `apiv1.codepr.ac` server block
+    - Add `ssl_certificate_key /etc/letsencrypt/live/www.codepr.ac/fullchain.pem; # managed by Certbot` to the `www.codepr.ac` server block
+    - Add `ssl_certificate_key /etc/letsencrypt/live/www.codepr.ac/privkey.pem; # managed by Certbot` to the `www.codepr.ac` server block
+    - Run `nginx -t` to check the configuration
+    - Run `nginx -s reload` to reload the configuration
+
 ### Deploying application on the infrastructure
 
 The supplied user data sets up the server but does not deploy anything. After deployment of the infrastructure, **do the following from the `./deploy/do` directory**:
@@ -95,8 +110,8 @@ The supplied user data sets up the server but does not deploy anything. After de
 
 **Notes**
 - To update production instructions, run `make update_repo`
-- To update production, run `make update_production`
-- To deploy production, run `make deploy_production`
+- To update production, run `sudo make update_production`
+- To deploy production, run `sudo make deploy_production`
 
 - - -
 

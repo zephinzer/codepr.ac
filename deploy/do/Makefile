@@ -27,7 +27,7 @@ up:
 	terraform apply
 	sleep 5
 	ssh -vv -i $(KEY_PATH) -p $(PORT) \
-		root@$(shell terraform output api_droplet_ipv4_address) \
+		codeprac@$(shell terraform output api_droplet_ipv4_address) \
 		'tail -f /var/log/cloud-init-output.log'
 db_only:
 	terraform apply -var flag_api_enabled=false
