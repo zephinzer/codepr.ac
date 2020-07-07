@@ -9,8 +9,10 @@ echo "started" > /userdata-steps;
 
 # Name of the user to create and grant sudo privileges
 USERNAME=codeprac;
+
 # Port to SSH to
 SSHD_PORT=26337;
+
 # Whether to copy over the root user's `authorized_keys` file to the new sudo
 # user.
 COPY_AUTHORIZED_KEYS_FROM_ROOT=true;
@@ -111,8 +113,15 @@ ssl_session_timeout 10m;
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
-  server_name _;
-  return 301 https://$host$request_uri;
+  server_name insecure-api.codepr.ac;
+  location / {
+    proxy_pass http://localhost:30001/;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+  location /ui {
+    proxy_pass http://localhost:3001/;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
 }
 
 server {
@@ -122,12 +131,8 @@ server {
   ssl_ciphers         HIGH:!aNULL:!MD5;
   server_name api.codepr.ac;
   location / {
-    proxy_pass                          http://localhost:30001/;
-    proxy_set_header X-Real-IP          $remote_addr;
-    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto  $scheme;
-    proxy_set_header X-Forwarded-Host   $host;
-    proxy_set_header X-Forwarded-Port   $server_port;
+    proxy_pass http://localhost:30001/;
+    proxy_set_header X-Real-IP $remote_addr;
   }
   # Certbot should insert certificates below this comment
 }
@@ -137,41 +142,19 @@ server {
   listen [::]:443 ssl;
   ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
   ssl_ciphers         HIGH:!aNULL:!MD5;
-  server_name www.codepr.ac;
+  server_name ui.codepr.ac;
   location / {
-    proxy_pass                          http://localhost:3001/;
-    proxy_set_header X-Real-IP          $remote_addr;
-    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto  $scheme;
-    proxy_set_header X-Forwarded-Host   $host;
-    proxy_set_header X-Forwarded-Port   $server_port;
-  }
-  # Certbot should insert certificates below this comment
-}
-
-server {
-  listen 443 ssl;
-  listen [::]:443 ssl;
-  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
-  ssl_ciphers         HIGH:!aNULL:!MD5;
-  server_name www.codepr.ac;
-  location /* {
-    proxy_pass                          http://localhost:3001/;
-    proxy_set_header X-Real-IP          $remote_addr;
-    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto  $scheme;
-    proxy_set_header X-Forwarded-Host   $host;
-    proxy_set_header X-Forwarded-Port   $server_port;
+    proxy_pass http://localhost:3001/;
+    proxy_set_header X-Real-IP $remote_addr;
   }
   # Certbot should insert certificates below this comment
 }
 EOF
 certbot --nginx --non-interactive --agree-tos -d api.codepr.ac -m webmaster@codepr.ac;
 certbot --nginx --non-interactive --agree-tos -d ui.codepr.ac -m webmaster@codepr.ac;
-certbot --nginx --non-interactive --agree-tos -d www.codepr.ac -m webmaster@codepr.ac;
 nginx -t;
 nginx -s reload;
-sed --in-place 's/^127.0.0.1 localhost/127.0.0.1 localhost api.codepr.ac ui.codepr.ac www.codepr.ac/g' /etc/hosts;
+sed --in-place 's/^127.0.0.1 localhost/127.0.0.1 localhost api.codepr.ac ui.codepr.ac/g' /etc/hosts;
 echo "nginx has been configured" >> /userdata-steps;
 
 # Open ports
@@ -181,12 +164,6 @@ ufw allow 30001; # api server
 ufw allow 3001; # ui server
 ufw reload;
 echo "firewall has been updated for application use" >> /userdata-steps;
-
-# Initialise application
-git clone https://gitlab.com/zephinzer/codepr.ac.git /home/${USERNAME}/src;
-chown ${USERNAME}:${USERNAME} -R /home/${USERNAME}/src;
-cd /home/${USERNAME}/src && make api_image && make ui_image;
-echo "application has been seeded" >> /userdata-steps;
 
 # Setup fail2ban
 cat << EOF > /etc/fail2ban/jail.local
@@ -199,5 +176,19 @@ maxretry = 3
 EOF
 systemctl restart fail2ban;
 echo "fail2ban has been configured" >> /userdata-steps;
+
+# Initialise application
+git clone https://gitlab.com/zephinzer/codepr.ac.git /home/${USERNAME}/src;
+chown ${USERNAME}:${USERNAME} -R /home/${USERNAME}/src;
+cd /home/${USERNAME}/src && make api_image && make ui_image_production;
+echo "application has been seeded" >> /userdata-steps;
+
+# Initialise cronjobs
+mkdir -p /opt/scripts;
+cd /home/${USERNAME}/src && cp ./scripts/update-service.sh /opt/scripts/update-service.sh;
+chmod +x /opt/scripts/update-service.sh;
+(crontab -l 2>/dev/null; echo "*/5 * * * * /opt/scripts/update-service.sh") | crontab -;
+sudo -u ${USERNAME} bash -c "(crontab -l 2>/dev/null; echo '*/5 * * * * cd /home/${USERNAME}/src && make update_repo') | crontab -;";
+echo "crontabs have been initialised" >> /userdata-steps;
 
 echo "completed successfully" >> /userdata-steps;

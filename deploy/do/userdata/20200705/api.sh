@@ -9,8 +9,10 @@ echo "started" > /userdata-steps;
 
 # Name of the user to create and grant sudo privileges
 USERNAME=codeprac;
+
 # Port to SSH to
 SSHD_PORT=26337;
+
 # Whether to copy over the root user's `authorized_keys` file to the new sudo
 # user.
 COPY_AUTHORIZED_KEYS_FROM_ROOT=true;
@@ -163,12 +165,6 @@ ufw allow 3001; # ui server
 ufw reload;
 echo "firewall has been updated for application use" >> /userdata-steps;
 
-# Initialise application
-git clone https://gitlab.com/zephinzer/codepr.ac.git /home/${USERNAME}/src;
-chown ${USERNAME}:${USERNAME} -R /home/${USERNAME}/src;
-cd /home/${USERNAME}/src && make api_image && make ui_image_production;
-echo "application has been seeded" >> /userdata-steps;
-
 # Setup fail2ban
 cat << EOF > /etc/fail2ban/jail.local
 [sshd]
@@ -180,5 +176,19 @@ maxretry = 3
 EOF
 systemctl restart fail2ban;
 echo "fail2ban has been configured" >> /userdata-steps;
+
+# Initialise application
+git clone https://gitlab.com/zephinzer/codepr.ac.git /home/${USERNAME}/src;
+chown ${USERNAME}:${USERNAME} -R /home/${USERNAME}/src;
+cd /home/${USERNAME}/src && make api_image && make ui_image_production;
+echo "application has been seeded" >> /userdata-steps;
+
+# Initialise cronjobs
+mkdir -p /opt/scripts;
+cd /home/${USERNAME}/src && cp ./scripts/update-service.sh /opt/scripts/update-service.sh;
+chmod +x /opt/scripts/update-service.sh;
+(crontab -l 2>/dev/null; echo "*/5 * * * * /opt/scripts/update-service.sh") | crontab -;
+sudo -u ${USERNAME} bash -c "(crontab -l 2>/dev/null; echo '*/5 * * * * cd /home/${USERNAME}/src && make update_repo') | crontab -;";
+echo "crontabs have been initialised" >> /userdata-steps;
 
 echo "completed successfully" >> /userdata-steps;

@@ -86,16 +86,16 @@ The frontend variables are injected at build-time and should be defined in the d
 The supplied user data sets up the server but does not deploy anything. After deployment of the infrastructure, **do the following from the `./deploy/do` directory**:
 
 1. Run `make ssh_api` to gain a shell into the API server
-2. Navigate to `~/src`, run `./scripts/init-docker-compose.deploy.sh`, and fill up the variables
-3. From `~/src`, run `docker-compose -f ./deploy/docker-compose.deploy.yml up -d` to start the application
+2. Navigate to `~/src`, run `./scripts/init-production.sh`, and fill up the variables
+3. From `~/src`, run `docker-compose up -d` to start the application
 4. Copy the script at `./scripts/update-service.sh` to `/opt/scripts/update-service.sh` and set the executable flag on it
 5. Run `sudo crontab -e` (note: use `sudo`) and add a new line `*/5 * * * * /opt/scripts/update-service.sh`, this enables auto-updating of the production services
 6. Copy the script at `./scripts/update-repo.sh` to `~/update-repo.sh` and set the executable flag on it
 7. Run `crontab -e` (note: no `sudo`) and add a new line `*/5 * * * * cd /home/codeprac/src && /home/codeprac/update-repo.sh`, this enables auto-updating of the production repository
 
 **Notes**
-- To update the application source in production, run `make update_repo`
-- To update the environment variables in production, run `make prepare_production`
+- To update production instructions, run `make update_repo`
+- To update production, run `make update_production`
 - To deploy production, run `make deploy_production`
 
 - - -
@@ -141,6 +141,8 @@ The following section assumes commands being run **from the project root**.
 1. Run `make api_production` or `make api_static_production` to build the application into a binary at `./bin/codeprac_${GOOS}_${GOARCH}`. Requires `go` to be available in your `$PATH`.
 2. Run `make ui` to build the web service into a built copy at `./build`/ Requires `node` to be available in your `$PATH`.
 
+**Notes**
+- For `make ui` to work properly, ensure that the required `REACT_APP_*` variables are defined at `npm run build`-time
 
 ## Packaging the applications
 
@@ -149,7 +151,8 @@ Docker is used to package the production bundle.
 1. Run `make api_image` to create the Docker image for the API server
 2. Run `make ui_image` to create the Docker image for the web application
 
-
+**Notes**
+- Multistage builds are opted for to avoid including files not intended for production, resulting builds from multistage builds also tend to be leaner
 
 - - -
 

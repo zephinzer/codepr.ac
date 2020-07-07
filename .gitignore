@@ -1,5 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+*.log
 .envrc
 /.keys
 
@@ -15,6 +16,7 @@
 # production
 /bin
 /build
+/docker-compose.yml
 
 # misc
 .DS_Store

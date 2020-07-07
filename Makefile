@@ -152,11 +152,13 @@ ui_image_export:
 ui_image_import:
 	docker load --input $(DOCKER_TARBALL_PATH)/ui.tar.gz
 
-prepare_production:
-	chmod +x ./scripts/deploy-docker-compose.sh
-	./scripts/deploy-docker-compose.sh
-deploy_production: api_image ui_image_production
-	docker-compose -f ./deploy/docker-compose.deploy.yml up -d
+init_production:
+	chmod +x ./scripts/init-production.sh
+	./scripts/init-production.sh
+update_production:
+	docker-compose pull
+deploy_production: update_production
+	docker-compose up -d
 update_repo:
 	chmod +x ./scripts/update-repo.sh
 	./scripts/update-repo.sh
