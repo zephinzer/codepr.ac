@@ -1,5 +1,8 @@
 #!/bin/bash
 # this script is meant to be run on the server where codeprac is deployed
+# to deploy this, place this file at /opt/scripts/update-service.sh and
+# run the following in the server as root:
+#   (crontab -l 2>/dev/null; echo "*/5 * * * * /opt/scripts/update-service.sh") | crontab -;
 
 set -euo pipefail;
 

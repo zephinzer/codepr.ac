@@ -1,7 +1,9 @@
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
+import {connect} from 'react-redux';
 import {getSelf} from 'controllers/github/self';
 import {setPersistentLogin, unsetPersistentLogin} from 'controllers/authentication';
 import Button from 'components/Button';
+import { mapStateToProps, mapDispatchToProps } from 'GlobalStateProvider';
 
 const initialState = {
   imageUrl: '',
@@ -13,54 +15,25 @@ const initialState = {
   rawData: {},
 }
 
-async function getGithubUser(accessToken, setData) {
-  const user = await getSelf({accessToken});
-  if (user.isError) {
-    unsetPersistentLogin()
-    return setData({
-      errorMessage: `${user.message}: ${user.data.message}`,
-      initialised: true,
-      rawData: user.data,
-      success: false,
-    });
-  }
-  setPersistentLogin({accessToken, platform: 'github'});
-  setData({
-    imageUrl: user.data['avatar_url'],
-    initialised: true,
-    name: user.data.name,
-    rawData: user.data,
-    success: true,
-    username: user.data.login,
-  });
-}
-
-export function AuthenticationSuccess({
+export const AuthenticationSuccess = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(({
   accessToken,
+  dispatch,
   platform,
-}) {
-  const [data, setData] = useState(initialState);
+  state,
+}) => {
   useEffect(() => {
-    switch(platform) {
-      case 'github':
-        getGithubUser(accessToken, setData);
-        console.info('made call to github');
-        break;
-      default:
-        setData({
-          errorMessage: 'no platform was provided',
-          initialised: false,
-          success: false,
-        })
-    }
+    dispatch.login({accessToken, platform});
   }, [accessToken, platform]);
   
   return (
     <div className='authentication-success'>
       {
-        data.initialised ?
+        state.authentication.initialised ?
         (
-          data.success ?
+          state.authentication.success ?
           (
             <div className='load-success'>
               <h1>
@@ -69,14 +42,14 @@ export function AuthenticationSuccess({
               <img
                 alt='your profile pic'
                 className='profile-image'
-                src={data.imageUrl}
+                src={state.authentication.imageUrl}
               />
               <br />
               <span className='username'>
-                {data.username}
+                {state.authentication.username}
               </span>
               <span className='name'>
-                {data.name}
+                {state.authentication.name}
               </span>
               <br />
               <Button
@@ -89,7 +62,7 @@ export function AuthenticationSuccess({
           :
           (
             <div className='load-error'>
-              Failed to retrieve your details: {data.errorMessage}
+              Failed to retrieve your details: {state.authentication.errorMessage}
             </div>
           )
         )
@@ -102,4 +75,4 @@ export function AuthenticationSuccess({
       }
     </div>
   );
-}
+});

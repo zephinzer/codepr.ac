@@ -1,20 +1,19 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {connect} from 'react-redux';
 import Home from "pages/Home";
 import Authentication from "pages/Authentication";
 import Dashboard from "pages/Dashboard";
 import Debug from "pages/Debug";
 import {isAuthenticated} from 'controllers/authentication';
-import { faGitlab } from "@fortawesome/free-brands-svg-icons";
-import {
-  faLockOpen,
-  faInfo,
-  faTachometerAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import NavigationBar from 'modules/NavigationBar';
 import "./App.css";
+import { useEffect } from 'react';
+import { mapStateToProps, mapDispatchToProps } from 'GlobalStateProvider';
 
-function App() {
-  const isUserLoggedIn = isAuthenticated();
+function App({dispatch, state}) {
+  useEffect(() => {
+    dispatch.loadFromLocalStorage();
+  }, []);
   return (
     <div className="app">
       <Router>
@@ -26,46 +25,13 @@ function App() {
             <Route path="/_/debug" component={Debug} />
           </Switch>
         </div>
-        <div className="navigation-bar">
-          <div className="navigation-bar-content">
-            <a
-              href="https://gitlab.com/zephinzer/codepr.ac"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <FontAwesomeIcon size="lg" icon={faGitlab} />
-            </a>
-            <Link
-              aria-label='to the homepage'
-              to="/"
-            >
-              <FontAwesomeIcon size="lg" icon={faInfo} />
-            </Link>
-            {
-              !isUserLoggedIn ? (
-                <Link
-                  aria-label='login to codeprac'
-                  to="/_/authentication"
-                >
-                  <FontAwesomeIcon size="lg" icon={faTachometerAlt} />
-                </Link>
-              ) : null
-            }
-            {
-              isUserLoggedIn ? (
-                <Link
-                  aria-label='access your dashboard'
-                  to="/_/dashboard"
-                >
-                  <FontAwesomeIcon size="lg" icon={faTachometerAlt} />
-                </Link>
-              ) : null
-            }
-          </div>
-        </div>
+        <NavigationBar />
       </Router>
     </div>
   );
 }
 
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

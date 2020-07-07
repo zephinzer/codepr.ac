@@ -1,0 +1,66 @@
+.navigation-bar {
+  bottom: 0;
+  position: fixed;
+  background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.05));
+  width: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.navigation-bar::-webkit-scrollbar {
+  display: none;
+}
+
+@media only screen and (min-width: 1161px) {
+  .navigation-bar {
+    background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.05));
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 64px;
+  }
+}
+
+.navigation-bar > .navigation-bar-content {
+  align-items: center;
+  display: inline-flex;
+  height: 64px;
+  min-width: 100%;
+}
+
+@media only screen and (min-width: 1161px) { 
+  .navigation-bar > .navigation-bar-content {
+    flex-direction: column;
+    height: 100%;
+  }
+}
+
+.navigation-bar > .navigation-bar-content > a {
+  align-items: center;
+  background-color: #333;
+  border-radius: 100px;
+  color: #DDD;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1.1em;
+  height: 48px;
+  justify-content: center;
+  margin: 8px 8px;
+  text-align: center;
+  transition: 0.2s ease-out;
+  width: 48px;
+}
+
+.navigation-bar > .navigation-bar-content > a:hover {
+  color: #FFF;
+  cursor: pointer !important;
+  transition: 0.1s ease-in;
+}
+
+.navigation-bar > .navigation-bar-content > a:hover * {
+  box-shadow: 0 0 4px rgba(255,255,255,0.1);
+  cursor: pointer !important;
+}
