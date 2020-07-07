@@ -14,7 +14,7 @@ const (
 	GithubRedirectURI           = "github-redirect-uri"
 	GithubOAuthAuthorizationURL = "https://github.com/login/oauth/authorize"
 	GithubOAuthGrantURL         = "https://github.com/login/oauth/access_token"
-	GithubOAuthRedirectURI      = "https://api.codepr.ac/session/github/callback"
+	GithubOAuthRedirectURI      = "https://apiv1.codepr.ac/session/github/callback"
 )
 
 var config = c.Map{
