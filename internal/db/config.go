@@ -9,7 +9,7 @@ const (
 	MySQLPassword = "mysql-password"
 	MySQLHostname = "mysql-hostname"
 	MySQLDatabase = "mysql-database"
-	MySQLPort = "mysql-port"
+	MySQLPort     = "mysql-port"
 )
 
 var Config = c.Map{
@@ -21,7 +21,7 @@ var Config = c.Map{
 	},
 	MySQLHostname: &c.String{
 		Default: "localhost", // default decided based on ./deploy/docker-compose.yml
-	}
+	},
 	MySQLDatabase: &c.String{
 		Default: "mysql_database", // default decided based on ./deploy/docker-compose.yml
 	},

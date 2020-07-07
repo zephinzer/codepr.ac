@@ -30,14 +30,14 @@ func Init(connectionID string) (*sql.DB, error) {
 func InitTable(tableName string, connection *sql.DB) error {
 	var execError error
 	_, execError = connection.Exec(fmt.Sprintf(
-		"CREATE TABLE IF NOT EXISTS `%s_migrations` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `index` INTEGER UNIQUE NOT NULL, `script` TEXT NOT NULL, `timestamp` TIMESTAMP DEFAULT NOW());",
+		"CREATE TABLE IF NOT EXISTS `%s_migrations` (`id` INT PRIMARY KEY AUTO_INCREMENT, `index` INT UNIQUE NOT NULL, `script` TEXT NOT NULL, `timestamp` TIMESTAMP DEFAULT NOW());",
 		tableName,
 	))
 	if execError != nil {
 		return fmt.Errorf("failed to create `%s`'s migrations table: %s", tableName, execError)
 	}
 	_, execError = connection.Exec(fmt.Sprintf(
-		"CREATE TABLE IF NOT EXISTS `%s` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `timestamp` TIMESTAMP DEFAULT NOW());",
+		"CREATE TABLE IF NOT EXISTS `%s` (`id` INT PRIMARY KEY AUTO_INCREMENT, `timestamp` TIMESTAMP DEFAULT NOW());",
 		tableName,
 	))
 	if execError != nil {

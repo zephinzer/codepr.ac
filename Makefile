@@ -21,7 +21,7 @@ ui_deps:
 start_db:
 	docker-compose -f ./deploy/docker-compose.yml up -d -V database
 db_shell:
-	mysql -umysql_username -pmysql_password -h127.0.0.1 -P3307
+	mysql -umysql_user -pmysql_password -h127.0.0.1 -P3307 mysql_database
 start_api:
 	go run -v -mod=vendor ./cmd/$(CMD_NAME) start
 start_api_production: api_production

@@ -11,20 +11,29 @@ const (
 	TableUser = "user"
 )
 
-var SQLite3Migrations = []string{
-	fmt.Sprintf("ALTER TABLE `%s` ADD `notification_id` VARCHAR(32) NOT NULL DEFAULT ''", TableName),
-	fmt.Sprintf("ALTER TABLE `%s` ADD `message` TEXT NOT NULL DEFAULT ''", TableName),
-	fmt.Sprintf("ALTER TABLE `%s` ADD `raw` TEXT NOT NULL DEFAULT ''", TableName),
-	fmt.Sprintf("ALTER TABLE `%s` ADD `hostname` VARCHAR(256) NOT NULL DEFAULT ''", TableName),
+var MySQLMigrations = []string{
+	fmt.Sprintf("ALTER TABLE `%s` ADD username VARCHAR(32) NOT NULL", TableUser),
+	fmt.Sprintf("ALTER TABLE `%s` ADD email VARCHAR(256) NOT NULL", TableUser),
+	fmt.Sprintf("ALTER TABLE `%s` ADD display_name VARCHAR(64)", TableUser),
+	fmt.Sprintf("ALTER TABLE `%s` ADD website TEXT", TableUser),
 }
 
 var dbConnection *sql.DB
+var dbError error
 
 func init() {
-	dbConnection = db.Init("user")
+	dbConnection, dbError = db.Init("user")
 }
 
-func Migrate() {
-	InitTable(TableUser, dbConnection)
-
+func Migrate() error {
+	if dbError != nil {
+		return fmt.Errorf("database has not been initialised: %s", dbError)
+	}
+	if initError := db.InitTable(TableUser, dbConnection); initError != nil {
+		return fmt.Errorf("database table could not be initialised: %s", initError)
+	}
+	if migrateError := db.ApplyMigrations(TableUser, MySQLMigrations); migrateError != nil {
+		return fmt.Errorf("database schema migration failed: %s", migrateError)
+	}
+	return nil
 }

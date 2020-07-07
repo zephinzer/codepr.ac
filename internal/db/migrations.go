@@ -10,11 +10,12 @@ import (
 // ApplyMigrations runs all the `migrations` on the sqlite3 database which
 // is stored at the `databasePath`; since migrations are tied to tables, it's
 // also requested that the `tableName` is provided
-func ApplyMigrations(tableName string, migrations []string, databasePath string) error {
-	connection, newConnectionError := NewConnection(databasePath)
+func ApplyMigrations(tableName string, migrations []string) error {
+	Config.LoadFromEnvironment()
+	connection, initError := Init("migrator")
 	defer connection.Close()
-	if newConnectionError != nil {
-		return newConnectionError
+	if initError != nil {
+		return fmt.Errorf("failed to initialise database connection: %s", initError)
 	}
 	if initError := InitTable(tableName, connection); initError != nil {
 		return initError
