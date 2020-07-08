@@ -1,21 +1,21 @@
-import {faGithub, faGitlab} from '@fortawesome/free-brands-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faGithub, faGitlab } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const DEFAULT_PLATFORM = 'github';
+const DEFAULT_PLATFORM = "github";
 const PLATFORM = {
-  "github": {
-    authUrl: 'https://github.com/login/oauth/authorize/',
-    bgColor: '#000',
-    fgColor: '#fff',
+  github: {
+    authUrl: "https://github.com/login/oauth/authorize/",
+    bgColor: "#000",
+    fgColor: "#fff",
     faIcon: faGithub,
-    name: 'Login with Github',
+    name: "Login with Github",
   },
-  "gitlab": {
-    authUrl: 'https://gitlab.com/oauth/authorize',
-    bgColor: '#fc6d26',
-    fgColor: '#fff',
+  gitlab: {
+    authUrl: "https://gitlab.com/oauth/authorize",
+    bgColor: "#fc6d26",
+    fgColor: "#fff",
     faIcon: faGitlab,
-    name: 'Login with Gitlab',
+    name: "Login with Gitlab",
   },
 };
 
@@ -26,42 +26,46 @@ export default function LoginButton({
   scopes,
   href,
 }) {
-  if(!platform) {
+  if (!platform) {
     platform = DEFAULT_PLATFORM;
   }
-  if(!PLATFORM[platform]) {
+  if (!PLATFORM[platform]) {
     return (
       <span
         aria-label={`an invalid provider, ${platform}, was provided`}
-        className='login-button'
+        className="login-button"
       >
         <label>
           Invalid provider <pre>{platform}</pre>
         </label>
-      </span>  
+      </span>
     );
   }
   const backgroundColor = PLATFORM[platform].bgColor;
   const foregroundColor = PLATFORM[platform].fgColor;
   const icon = PLATFORM[platform].faIcon;
   const platformName = PLATFORM[platform].name;
-  const targetUrl = href ? href : `${PLATFORM[platform].authUrl}?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}`;
+  const targetUrl = href
+    ? href
+    : `${PLATFORM[platform].authUrl}?client_id=${encodeURIComponent(
+        clientId
+      )}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&scope=${encodeURIComponent(scopes)}`;
   return (
     <a
       aria-label={`click to login via ${platformName}`}
-      className='login-button'
+      className="login-button"
       href={targetUrl}
     >
-      <div className='login-button-content'
+      <div
+        className="login-button-content"
         style={{
           backgroundColor,
           color: foregroundColor,
-        }}>
-        <FontAwesomeIcon
-          className='icon'
-          icon={icon}
-          size='lg'
-        />
+        }}
+      >
+        <FontAwesomeIcon className="icon" icon={icon} size="lg" />
         <label>{platformName}</label>
       </div>
     </a>
