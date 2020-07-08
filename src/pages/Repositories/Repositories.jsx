@@ -11,10 +11,17 @@ import {
   faShareAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
+function selectRepository({ apiUrl, history }) {
+  const urlComponents = apiUrl.split("/");
+  const repo = urlComponents[urlComponents.length - 1];
+  const owner = urlComponents[urlComponents.length - 2];
+  history.push(`/_/project/github/${owner}/${repo}`);
+}
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(function Repositories({ dispatch, match, state }) {
+)(function Repositories({ dispatch, history, match, state }) {
   const { pageNumber } = match.params;
   const { accessToken } = state.authentication;
   const [data, setData] = useState({
@@ -51,7 +58,11 @@ export default connect(
       {data.success === true ? (
         <ul>
           {data.repositories.map((item, index) => (
-            <li aria-label={item.full_name} key={index}>
+            <li
+              aria-label={item.full_name}
+              key={index}
+              onClick={() => selectRepository({ apiUrl: item.url, history })}
+            >
               <div
                 className="image"
                 style={{

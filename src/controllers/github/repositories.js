@@ -1,10 +1,11 @@
 import { DataMessage } from "interfaces/message";
 
 export async function getUserRepositories({
-  accessToken,
-  mergeWith = [],
-  perPage = 20,
-  pageNumber = 0,
+  accessToken, // user's github access token
+  getAll = false, // when set to true, this will retrieve all repos if pageNumber === 0
+  mergeWith = [], // use this to merge with an existing list of repos
+  perPage = 20, // number of repos on the page
+  pageNumber = 0, // 1-based index of page of repos
 }) {
   const endpoint = new URL("https://api.github.com/user/repos");
   endpoint.searchParams.set("sort", "updated");
@@ -23,12 +24,14 @@ export async function getUserRepositories({
     });
   }
   let repos = mergeWith.concat(data);
-  if (data.length >= 50) {
+  if (getAll && data.length >= perPage) {
     repos = (
       await getUserRepositories({
         accessToken,
+        getAll,
         mergeWith: repos,
         pageNumber: pageNumber + 1,
+        perPage,
       })
     ).data;
   }

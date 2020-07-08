@@ -4,6 +4,7 @@ import Home from "pages/Home";
 import Authentication from "pages/Authentication";
 import Dashboard from "pages/Dashboard";
 import Debug from "pages/Debug";
+import Project from "pages/Project";
 import Repositories from "pages/Repositories";
 import { isAuthenticated } from "controllers/authentication";
 import NavigationBar from "modules/NavigationBar";
@@ -24,6 +25,10 @@ function App({ dispatch, state }) {
             <Route path="/_/authentication" component={Authentication} />
             <Route path="/_/dashboard" component={Dashboard} />
             <Route path="/_/debug" component={Debug} />
+            <Route
+              path="/_/project/:platform/:owner/:repo+"
+              component={Project}
+            />
             <Route
               path="/_/repositories/:pageNumber?"
               component={Repositories}

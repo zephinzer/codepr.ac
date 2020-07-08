@@ -1,0 +1,41 @@
+.page-project > ul.commit-history {
+  list-style: none;
+  padding-left: 0;
+}
+
+.page-project > ul.commit-history > li {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 3vh 0 3vh 0;
+  transition: 0.2s ease;
+}
+
+.page-project > ul.commit-history > li:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.page-project > ul.commit-history > li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: 0.2s ease;
+}
+
+.page-project > ul.commit-history > li > span.username {
+  display: block;
+  flex: 2;
+}
+
+.page-project > ul.commit-history > li > span.commit-message {
+  display: inline-block;
+  flex: 7;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.page-project > ul.commit-history > li > span.commit-sha {
+  display: block;
+  flex: 1;
+}
