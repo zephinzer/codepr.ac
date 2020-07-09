@@ -1,4 +1,5 @@
 import { DataMessage } from "interfaces/message";
+import { dedupeDoubleSlashesInUrl } from "controllers/utils";
 
 export async function getRepository({ accessToken, owner, repo }) {
   const endpoint = new URL(`https://api.github.com/repos/${owner}/${repo}`);
@@ -48,7 +49,9 @@ export async function getRepositoryContents({
   ref,
 }) {
   const endpoint = new URL(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`
+    dedupeDoubleSlashesInUrl(
+      `https://api.github.com/repos/${owner}/${repo}/contents/${path}`
+    )
   );
 
   if (ref) endpoint.searchParams.set("ref", ref);

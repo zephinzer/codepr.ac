@@ -7,6 +7,7 @@ import Dashboard from "pages/Dashboard";
 import Debug from "pages/Debug";
 import Project from "pages/Project";
 import Repositories from "pages/Repositories";
+import Workbench from "pages/Workbench";
 
 export default function ContentRouter() {
   return (
@@ -19,6 +20,10 @@ export default function ContentRouter() {
         <Route path="/_/debug" component={Debug} />
         <Route path="/_/project/:platform/:owner/:repo+" component={Project} />
         <Route path="/_/repositories/:pageNumber?" component={Repositories} />
+        <Route
+          path="/_/workbench/:platform/:owner/:repo?"
+          component={Workbench}
+        />
       </Switch>
     </div>
   );

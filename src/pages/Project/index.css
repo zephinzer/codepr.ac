@@ -1,28 +1,33 @@
-.page-project > ul.contents {
+.page-project ul.content-list {
   list-style: none;
   padding-left: 0;
 }
 
-.page-project > ul.contents > li {
+.page-project ul.content-list > li {
   align-items: center;
+  cursor: pointer;
   display: flex;
   padding-left: 0;
 }
 
-.page-project > ul.contents > li:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.05);
+.page-project ul.content-list > ul.content-list > li {
+  padding-left: 2vw;
 }
 
-.page-project > ul.contents > li:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+.page-project ul.content-list > li:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+.page-project ul.content-list > li:hover {
+  background-color: #efefef;
   transition: 0.2s ease;
 }
 
-.page-project > ul.contents > li > span {
+.page-project ul.content-list > li > span {
   margin: 0 1vw 0 1vw;
 }
 
-.page-project > ul.contents > li > span.type {
+.page-project ul.content-list > li > span.type {
   align-items: center;
   display: flex;
   justify-content: flex-start;
@@ -30,15 +35,15 @@
   height: 2em;
 }
 
-.page-project > ul.contents > li > span.type > i.file * {
+.page-project ul.content-list > li > span.type > i.file * {
   color: rgba(100, 170, 255, 0.5);
 }
 
-.page-project > ul.contents > li > span.type > i.dir * {
+.page-project ul.content-list > li > span.type > i.dir * {
   color: rgba(240, 220, 100, 0.8);
 }
 
-.page-project > ul.contents > li > span.name {
+.page-project ul.content-list > li > span.name {
   cursor: default;
   flex: 1;
   pointer-events: none;

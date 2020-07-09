@@ -27,12 +27,15 @@
 }
 
 .page-commits > ul.commit-history > li > span.image {
-  display: block;
+  align-items: center;
   border-radius: 100%;
+  display: flex;
+  justify-content: center;
   min-height: 1em;
   min-width: 1em;
   height: 2vw;
   width: 2vw;
+  text-align: center;
   max-height: 32px;
   max-width: 32px;
 }

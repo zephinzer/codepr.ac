@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "GlobalStateProvider";
 import { getRepositoryCommits } from "controllers/github/repository";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 async function selectCommit({
   accessToken,
@@ -41,6 +43,7 @@ export default connect(
             success: false,
           });
         }
+        console.info(commits);
         return setData({
           error: null,
           commits: commits.data,
@@ -81,16 +84,30 @@ export default connect(
               <span
                 className="image"
                 style={{
-                  backgroundImage: `url(${commit.author.avatar_url})`,
+                  backgroundImage: `url(${
+                    commit.author
+                      ? commit.author.avatar_url
+                        ? commit.author.avatar_url
+                        : ""
+                      : ""
+                  })`,
                   backgroundSize: "cover",
                 }}
               >
-                {commit.author.avatar_url ? null : (
-                  <FontAwesomeIcon className="icon" icon={faUser} size="sm" />
+                {commit.author && commit.author.avatar_url ? (
+                  ""
+                ) : (
+                  <FontAwesomeIcon className="icon" icon={faUser} size="lg" />
                 )}
               </span>
               <span className="commit-message">{commit.commit.message}</span>
-              <span className="username">{commit.author.login}</span>
+              <span className="username">
+                {commit.author && commit.author.login
+                  ? commit.author.login
+                  : commit.commit.author
+                  ? commit.commit.author.name
+                  : "unknown"}
+              </span>
               <span className="commit-sha">{commit.sha.slice(0, 8)}</span>
             </li>
           ))}
