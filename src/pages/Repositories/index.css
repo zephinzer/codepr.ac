@@ -1,9 +1,9 @@
-.page-repositories > ul {
+.page-repositories > ul.repository-list {
   list-style: none;
   padding-left: 0;
 }
 
-.page-repositories > ul > li {
+.page-repositories > ul.repository-list > li {
   align-items: flex-start;
   cursor: pointer;
   display: flex;
@@ -13,68 +13,73 @@
   transition: 0.2s ease;
 }
 
-.page-repositories > ul > li:nth-child(even) {
+.page-repositories > ul.repository-list > li:nth-child(even) {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.page-repositories > ul > li:hover {
+.page-repositories > ul.repository-list > li:hover {
   background-color: rgba(0, 0, 0, 0.1);
   transition: 0.2s ease;
 }
 
-.page-repositories > ul > li > div {
+.page-repositories > ul.repository-list > li > div {
   margin: 0 1vw 0 1vw;
 }
 
-.page-repositories > ul > li > div.image {
+.page-repositories > ul.repository-list > li > div.image {
   border-radius: 100%;
-  min-height: 5vw;
-  min-width: 5vw;
-  max-height: 64px;
-  max-width: 64px;
+  min-height: 2vw;
+  min-width: 2vw;
+  max-height: 32px;
+  max-width: 32px;
 }
 
-.page-repositories > ul > li > div.image > div {
+.page-repositories > ul.repository-list > li > div.image > div {
   height: 5vw;
   width: 5vw;
 }
 
-.page-repositories > ul > li > div.info {
+.page-repositories > ul.repository-list > li > div.info {
   display: block;
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.page-repositories > ul > li > div.info > span.name {
+.page-repositories > ul.repository-list > li > div.info > span.name {
   font-weight: 600;
 }
 
-.page-repositories > ul > li > div.info > span.full-name {
+.page-repositories > ul.repository-list > li > div.info > span.full-name {
   font-weight: 200;
 }
 
-.page-repositories > ul > li > div.info > span.full-name::before {
+.page-repositories
+  > ul.repository-list
+  > li
+  > div.info
+  > span.full-name::before {
   content: " | ";
 }
 
-.page-repositories > ul > li > div.info > span.description {
+.page-repositories > ul.repository-list > li > div.info > span.description {
   display: block;
+  font-size: 0.8em;
 }
 
-.page-repositories > ul > li > div.numbers {
+.page-repositories > ul.repository-list > li > div.numbers {
   display: flex;
   flex-direction: column;
-  min-width: 48px;
+  min-width: 64px;
 }
 
-.page-repositories > ul > li > div.numbers > span {
+.page-repositories > ul.repository-list > li > div.numbers > span {
   align-items: center;
   display: flex;
-  flex-direction: row;
-  font-size: 0.7em;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.page-repositories > ul > li > div.numbers > span * {
+.page-repositories > ul.repository-list > li > div.numbers > span * {
   flex: 1;
 }

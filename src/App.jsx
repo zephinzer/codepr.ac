@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Home from "pages/Home";
 import Authentication from "pages/Authentication";
+import Commits from "pages/Commits";
 import Dashboard from "pages/Dashboard";
 import Debug from "pages/Debug";
 import Project from "pages/Project";
@@ -23,6 +24,10 @@ function App({ dispatch, state }) {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/_/authentication" component={Authentication} />
+            <Route
+              path="/_/commits/:platform/:owner/:repo+"
+              component={Commits}
+            />
             <Route path="/_/dashboard" component={Dashboard} />
             <Route path="/_/debug" component={Debug} />
             <Route

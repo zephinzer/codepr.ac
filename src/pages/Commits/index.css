@@ -1,0 +1,61 @@
+.page-commits > ul.commit-history {
+  list-style: none;
+  padding-left: 0;
+}
+
+.page-commits > ul.commit-history > li {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 3vh 0 3vh 0;
+  transition: 0.2s ease;
+}
+
+.page-commits > ul.commit-history > li:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.page-commits > ul.commit-history > li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: 0.2s ease;
+}
+
+.page-commits > ul.commit-history > li > span {
+  margin: 0 1vw 0 1vw;
+}
+
+.page-commits > ul.commit-history > li > span.image {
+  display: block;
+  border-radius: 100%;
+  min-height: 1em;
+  min-width: 1em;
+  height: 2vw;
+  width: 2vw;
+  max-height: 32px;
+  max-width: 32px;
+}
+
+.page-commits > ul.commit-history > li > span.image > div {
+  height: 5vw;
+  width: 5vw;
+}
+
+.page-commits > ul.commit-history > li > span.username {
+  display: block;
+  flex: 2;
+}
+
+.page-commits > ul.commit-history > li > span.commit-message {
+  display: inline-block;
+  flex: 7;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.page-commits > ul.commit-history > li > span.commit-sha {
+  display: block;
+  flex: 1;
+}

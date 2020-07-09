@@ -1,66 +1,139 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "GlobalStateProvider";
-import { getRepositoryCommits } from "controllers/github/repository";
+import {
+  getRepository,
+  getRepositoryContents,
+} from "controllers/github/repository";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFolderOpen,
+  faFileAlt,
+  faFolder,
+  faFile,
+  faEllipsisH,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(function Project({ dispatch, history, match, state }) {
-  // TODO: platform currently not used but when gitlab is integrated the behaviour should be changed
+  const searchParams = new URLSearchParams(history.location.search);
   const { platform, owner, repo } = match.params;
+  const ref = searchParams.get("ref");
   const { accessToken } = state.authentication;
   const [data, setData] = useState({
-    error: null,
-    commits: [],
-    success: null,
+    meta: {
+      error: null,
+      success: null,
+      data: {},
+    },
+    content: {
+      error: null,
+      success: null,
+      data: {},
+    },
   });
+
   useEffect(() => {
-    if (accessToken) {
-      (async function f() {
-        const commits = await getRepositoryCommits({
-          accessToken,
-          owner,
-          repo,
-        });
-        if (commits.isError) {
-          return setData({
-            error: commits.message,
-            success: false,
-          });
-        }
-        return setData({
-          error: null,
-          commits: commits.data,
-          success: true,
+    if (accessToken && accessToken !== "unset") {
+      (async function () {
+        const [repositoryInfo, commitContent] = await Promise.all([
+          getRepository({
+            accessToken,
+            owner,
+            repo,
+          }),
+          getRepositoryContents({
+            accessToken,
+            owner,
+            repo,
+            ref,
+          }),
+        ]);
+        const meta = repositoryInfo.isError
+          ? {
+              error: repositoryInfo.message,
+              success: false,
+            }
+          : {
+              error: null,
+              data: repositoryInfo.data,
+              success: true,
+            };
+        const content = commitContent.isError
+          ? {
+              error: commitContent.message,
+              success: false,
+            }
+          : {
+              error: null,
+              data: commitContent.data,
+              success: true,
+            };
+        setData({
+          meta,
+          content,
         });
       })();
     }
   }, [accessToken]);
-  if (data.repo !== {}) {
-    console.log(data.repo);
-  }
+  console.log(data);
+  const { meta, content } = data;
   return (
     <div className="page-project">
-      <h1>Project</h1>
-      {data.success === false ? (
-        <div className="error-state">Failed to retrieve repository</div>
+      {/*
+       * header
+       */}
+      {meta.success === false ? (
+        <h1>Project</h1>
+      ) : meta.success === true ? (
+        [
+          <h1 key="header">
+            {meta.data.owner.login}/{meta.data.name}
+          </h1>,
+          <span key="description">{meta.data.description}</span>,
+        ]
       ) : (
-        <div className="success-state">Select a commit from below</div>
+        <h1>Loading...</h1>
       )}
-      {data.success === true ? (
-        <ul className="commit-history">
-          {data.commits.map((commit) => (
-            <li className="commit-entry" key={commit.sha}>
-              <span className="commit-message">{commit.commit.message}</span>
-              <span className="username">{commit.author.login}</span>
-              <span className="commit-sha">{commit.sha.slice(0, 8)}</span>
-            </li>
-          ))}
-        </ul>
+      {/*
+       * body
+       */}
+      {content.success === false ? (
+        <div className="content-load-error"></div>
+      ) : content.success === true ? (
+        <Contents data={content.data} />
       ) : (
-        <div className="error-message">{data.error}</div>
+        <div className="content-loading"></div>
       )}
     </div>
   );
 });
+
+function Contents({ data }) {
+  return (
+    <ul className="contents">
+      {data.map((listing) => (
+        <li key={listing.sha}>
+          <span className="type">
+            {listing.type === "file" ? (
+              <i className="file">
+                <FontAwesomeIcon icon={faFile} inverse fixedWidth />
+              </i>
+            ) : listing.type === "dir" ? (
+              <i className="dir">
+                <FontAwesomeIcon icon={faFolder} inverse fixedWidth />
+              </i>
+            ) : (
+              <i className="others">
+                <FontAwesomeIcon icon={faEllipsisH} inverse fixedWidth />
+              </i>
+            )}
+          </span>
+          <span className="name">{listing.name}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}

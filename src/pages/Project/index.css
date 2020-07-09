@@ -1,41 +1,49 @@
-.page-project > ul.commit-history {
+.page-project > ul.contents {
   list-style: none;
   padding-left: 0;
 }
 
-.page-project > ul.commit-history > li {
+.page-project > ul.contents > li {
   align-items: center;
-  cursor: pointer;
   display: flex;
-  justify-content: center;
-  list-style: none;
-  padding: 3vh 0 3vh 0;
-  transition: 0.2s ease;
+  padding-left: 0;
 }
 
-.page-project > ul.commit-history > li:nth-child(even) {
+.page-project > ul.contents > li:nth-child(even) {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.page-project > ul.commit-history > li:hover {
+.page-project > ul.contents > li:hover {
   background-color: rgba(0, 0, 0, 0.1);
   transition: 0.2s ease;
 }
 
-.page-project > ul.commit-history > li > span.username {
-  display: block;
-  flex: 2;
+.page-project > ul.contents > li > span {
+  margin: 0 1vw 0 1vw;
 }
 
-.page-project > ul.commit-history > li > span.commit-message {
-  display: inline-block;
-  flex: 7;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.page-project > ul.contents > li > span.type {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  width: 1em;
+  height: 2em;
 }
 
-.page-project > ul.commit-history > li > span.commit-sha {
-  display: block;
+.page-project > ul.contents > li > span.type > i.file * {
+  color: rgba(100, 170, 255, 0.5);
+}
+
+.page-project > ul.contents > li > span.type > i.dir * {
+  color: rgba(240, 220, 100, 0.8);
+}
+
+.page-project > ul.contents > li > span.name {
+  cursor: default;
   flex: 1;
+  pointer-events: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 }
