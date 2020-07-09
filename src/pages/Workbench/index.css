@@ -1,0 +1,55 @@
+.page-workbench {
+}
+
+.page-workbench > .file > .line {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  font-family: "Courier", "Fira Mono Retina", "New Courier", monospace;
+  white-space: nowrap;
+}
+
+.page-workbench > .file > .line:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+.page-workbench > .file > .line > .number {
+  border-right: dotted 1px #000;
+  font-size: 0.8em;
+  font-weight: 600;
+  min-width: 2.5vw;
+  min-width: 32px;
+}
+
+.page-workbench > .file > .line > .content {
+  font-size: 1em;
+  margin-left: 8px;
+  line-height: 2em;
+  white-space: pre;
+  max-width: 100%;
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+
+@media only screen and (max-width: 1160px) {
+  .page-workbench > .file > .line > .number {
+    font-size: 0.8em;
+  }
+  .page-workbench > .file > .line > .content {
+    font-size: 0.9em;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .page-workbench > .file > .line > .number {
+    font-size: 0.6em;
+  }
+  .page-workbench > .file > .line > .content {
+    font-size: 0.7em;
+  }
+}
+
+.page-workbench > .file > .line > .content::-webkit-scrollbar {
+  display: none;
+}
